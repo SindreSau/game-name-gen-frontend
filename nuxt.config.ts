@@ -1,8 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  rootDir: './',
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
+  experimental: {
+    componentIslands: true
+  },
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -22,11 +24,14 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { hid: 'description', name: 'description', content: 'Generate unique and creative names for your games' }
-      ]
+        { hid: 'description', name: 'description', content: 'Generate unique and creative names for your games' },
+      ],
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/favicon.png' },
+      ],
     }
   },
-  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/color-mode', '@nuxt/image'],
+  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/color-mode', '@nuxt/image' ],
   shadcn: {
     prefix: '',
     componentDir: './components/ui'

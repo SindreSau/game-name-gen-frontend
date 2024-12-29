@@ -16,5 +16,7 @@ const NAVLINKS = [
         <main class="relative max-w-5xl py-6 pt-32 mx-auto sm:px-6 lg:px-8">
             <slot />
         </main>
+
+        <Footer />
     </div>
 </template>

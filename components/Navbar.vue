@@ -1,9 +1,16 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { vAutoAnimate } from '@formkit/auto-animate/vue';
+
 const NAVLINKS = [
     { name: 'Home', href: '/' },
     { name: 'Favourites', href: '/favourites' },
     { name: 'About', href: '/about' },
 ];
+
+const route = useRoute();
+const currentPagePath = computed(() => route.path);
 
 const isHovering = ref(false);
 const mousePosition = ref({ x: 0, y: 0 });
@@ -17,6 +24,10 @@ const handleMouseMove = (event: MouseEvent) => {
         x: event.clientX - rect.left,
         y: event.clientY - rect.top,
     };
+};
+
+const isActiveLink = (href: string) => {
+    return href === currentPagePath.value;
 };
 </script>
 
@@ -54,11 +65,14 @@ const handleMouseMove = (event: MouseEvent) => {
                     </NuxtLink>
 
                     <!-- Center Navigation -->
-                    <ul class="flex items-center gap-8">
-                        <li v-for="link in NAVLINKS" :key="link.href">
+                    <ul class="flex items-center justify-between w-full max-w-72" v-auto-animate>
+                        <li class="flex items-center justify-center w-full" v-for="link in NAVLINKS" :key="link.href">
                             <NuxtLink
                                 :to="link.href"
-                                class="text-sm transition-colors text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">
+                                :class="{
+                                    'text-sm h-5 transition-all duration-200 text-center text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white': true,
+                                    'border-b-2 border-primary w-9/12 pb-6': isActiveLink(link.href),
+                                }">
                                 {{ link.name }}
                             </NuxtLink>
                         </li>
