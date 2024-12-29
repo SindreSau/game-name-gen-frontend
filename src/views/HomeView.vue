@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import TestFetching from '@/components/TestFetching.vue'
+import TestNameGen from '@/components/testNameGen.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <!-- <TestFetching /> -->
+    <TestNameGen />
   </main>
 </template>
