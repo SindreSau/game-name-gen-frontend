@@ -3,7 +3,8 @@ import { Github } from 'lucide-vue-next';
 </script>
 
 <template>
-    <footer class="fixed bottom-0 flex items-center justify-center w-full border-t border-muted">
+    <footer
+        class="fixed bottom-0 flex items-center justify-center w-full border-t border-muted dark:bg-zinc-950/80 backdrop-blur-[6px]">
         <div class="flex items-center justify-center gap-4 py-2 text-sm text-muted-foreground">
             <p>&copy; {{ new Date().getFullYear() }} @Github/SindreSau</p>
             <!-- Github logo and link -->

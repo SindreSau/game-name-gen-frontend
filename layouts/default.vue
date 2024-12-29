@@ -13,7 +13,7 @@ const NAVLINKS = [
 
         <Navbar />
 
-        <main class="relative max-w-5xl py-6 pt-32 mx-auto sm:px-6 lg:px-8">
+        <main class="relative px-5 py-12 pt-[100px] mx-auto max-w-7xl sm:px-6 lg:px-8">
             <slot />
         </main>
 
