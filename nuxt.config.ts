@@ -9,6 +9,13 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  components: {
+    dirs: [
+      '~/components',
+      '~/components/ui',
+      '~/components/header',
+    ]
+  },
   app: {
     head: {
       title: 'Game Name Generator',
@@ -19,7 +26,7 @@ export default defineNuxtConfig({
       ]
     }
   },
-  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/color-mode'],
+  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/color-mode', '@nuxt/image'],
   shadcn: {
     prefix: '',
     componentDir: './components/ui'

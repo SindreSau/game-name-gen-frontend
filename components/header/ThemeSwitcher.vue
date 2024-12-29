@@ -21,7 +21,11 @@ onMounted(() => {
 </script>
 
 <template>
-    <Button variant="ghost" size="icon" @click="toggleTheme" class="relative grid w-10 h-10 place-items-center">
+    <Button
+        variant="ghost"
+        size="icon"
+        @click="toggleTheme"
+        class="relative grid w-10 h-10 rounded-full place-items-center">
         <!-- Show loading state -->
         <div v-if="colorMode.unknown" class="w-5 h-5 rounded-full bg-muted animate-pulse"></div>
 

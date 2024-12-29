@@ -7,25 +7,14 @@ const NAVLINKS = [
 </script>
 
 <template>
-    <div class="min-h-screen">
-        <header class="border-b">
-            <nav class="flex items-center justify-between px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <ul class="flex gap-6">
-                    <li v-for="link in NAVLINKS" :key="link.href">
-                        <NuxtLink :to="link.href" class="">
-                            {{ link.name }}
-                        </NuxtLink>
-                    </li>
-                </ul>
+    <div class="relative min-h-screen">
+        <HeaderAmbientCircleBacground />
+        <HeaderBackgroundNoise />
 
-                <ThemeSwitcher></ThemeSwitcher>
-            </nav>
-        </header>
+        <Navbar />
 
-        <main class="py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <main class="relative max-w-5xl py-6 pt-32 mx-auto sm:px-6 lg:px-8">
             <slot />
         </main>
     </div>
 </template>
-
-<style></style>
