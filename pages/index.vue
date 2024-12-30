@@ -5,7 +5,7 @@ import { useNameGeneratorState } from '~/composables/useNameGeneratorState';
 import { useFavorites } from '@/composables/useFavorites';
 
 // Initialize state management
-const { formState, generatedNames, updateGeneratedNames, loadState } = useNameGeneratorState();
+const { formState, generatedNames, updateGeneratedNames, clearFormState, loadGeneratedNames } = useNameGeneratorState();
 const { toast } = useToast();
 const TOAST_DURATION = 1500;
 
@@ -22,8 +22,13 @@ const { data: stylesData } = await useAsyncData<StylesResponse>('styles', () =>
 
 // Ensure state is loaded from localStorage
 if (import.meta.client) {
-    loadState();
+    loadGeneratedNames();
 }
+
+onMounted(() => {
+    // Clear all formState
+    clearFormState();
+});
 
 const styles = computed(() => stylesData.value?.styles ?? []);
 

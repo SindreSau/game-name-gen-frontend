@@ -47,11 +47,6 @@ watch(
 );
 
 const canSelectMore = computed(() => {
-    // If using single part, allow only one selection
-    if (props.numParts === 1) {
-        return selectedCount.value < 1;
-    }
-    // Otherwise, allow up to maxSelections
     return selectedCount.value < props.maxSelections;
 });
 
@@ -115,12 +110,8 @@ const isValid = computed(() => {
 <template>
     <div class="space-y-2">
         <div class="flex items-center justify-between">
-            <label class="text-sm font-medium leading-none">
-                Name Styles (Choose up to {{ props.numParts === 1 ? 1 : maxSelections }})
-            </label>
-            <span class="text-sm text-muted-foreground">
-                Selected: {{ selectedCount }}/{{ props.numParts === 1 ? 1 : maxSelections }}
-            </span>
+            <label class="text-sm font-medium leading-none"> Name Styles (Choose up to {{ maxSelections }}) </label>
+            <span class="text-sm text-muted-foreground"> Selected: {{ selectedCount }}/{{ maxSelections }} </span>
         </div>
 
         <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">

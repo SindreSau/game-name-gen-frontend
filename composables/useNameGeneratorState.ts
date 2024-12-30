@@ -45,23 +45,6 @@ export const useNameGeneratorState = () => {
                 // Start with default state
                 const newState = { ...DEFAULT_FORM_STATE };
 
-                // Only preserve valid fields from stored state
-                if (parsedForm.gender && ['masculine', 'feminine', 'neutral'].includes(parsedForm.gender)) {
-                    newState.gender = parsedForm.gender;
-                }
-                if (parsedForm.numParts && [1, 2, 3].includes(parsedForm.numParts)) {
-                    newState.numParts = parsedForm.numParts;
-                }
-                if (parsedForm.caseStyle) {
-                    newState.caseStyle = parsedForm.caseStyle;
-                }
-                if (typeof parsedForm.count === 'number' && parsedForm.count > 0) {
-                    newState.count = parsedForm.count;
-                }
-                if (typeof parsedForm.unique === 'boolean') {
-                    newState.unique = parsedForm.unique;
-                }
-
                 // Always start with empty selectedStyleIds
                 newState.selectedStyleIds = [];
 
@@ -82,12 +65,54 @@ export const useNameGeneratorState = () => {
         }
     };
 
+    const clearFormState = () => {
+        formState.value = DEFAULT_FORM_STATE;
+        localStorage.removeItem('generatorFormState');
+    };
+
+    const loadFormState = () => {
+        if (!import.meta.client) return;
+
+        try {
+            const storedForm = localStorage.getItem('generatorFormState');
+            if (storedForm) {
+                const parsedForm = JSON.parse(storedForm);
+                formState.value = {
+                    ...DEFAULT_FORM_STATE,
+                    ...parsedForm,
+                };
+            }
+        } catch (error) {
+            console.error('Failed to load generator form state:', error);
+        }
+    };
+
+    const loadGeneratedNames = () => {
+        if (!import.meta.client) return;
+
+        try {
+            const storedNames = localStorage.getItem('generatedNames');
+            if (storedNames) {
+                const parsedNames = JSON.parse(storedNames);
+                if (Array.isArray(parsedNames)) {
+                    generatedNames.value = parsedNames;
+                }
+            }
+        } catch (error) {
+            console.error('Failed to load generated names:', error);
+        }
+    };
+
     // Save state to localStorage
     const saveState = () => {
         if (!import.meta.client) return;
 
         try {
-            localStorage.setItem('generatorFormState', JSON.stringify(formState.value));
+            // Only save selectedStyleIds to localStorage
+            const stateToSave = {
+                selectedStyleIds: formState.value.selectedStyleIds,
+            };
+            localStorage.setItem('generatorFormState', JSON.stringify(stateToSave));
             localStorage.setItem('generatedNames', JSON.stringify(generatedNames.value));
         } catch (error) {
             console.error('Failed to save generator state:', error);
@@ -120,6 +145,9 @@ export const useNameGeneratorState = () => {
         updateFormState,
         updateGeneratedNames,
         clearState,
+        clearFormState,
         loadState,
+        loadFormState,
+        loadGeneratedNames,
     };
 };

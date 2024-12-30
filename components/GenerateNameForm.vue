@@ -1,6 +1,5 @@
-// components/GenerateNameForm.vue
 <script setup lang="ts">
-import type { NameStyle, GenerateNamesRequest, GenerateNamesResponse, CaseStyle, Gender } from '~/types';
+import type { NameStyle, GenerateNamesResponse, CaseStyle, Gender } from '~/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { type FormState } from '@/composables/useNameGeneratorState';
 
@@ -24,6 +23,7 @@ const emit = defineEmits<Emits>();
 
 const hasAttemptedSubmit = ref(false);
 const isGenerating = ref(false);
+const { formState } = toRefs(props);
 
 // Options for radio groups with proper typing
 const genderOptions: { value: Gender; label: string }[] = [
@@ -129,7 +129,7 @@ watch(
 </script>
 
 <template>
-    <form @submit.prevent="handleSubmit" class="space-y-6">
+    <form @submit.prevent="handleSubmit" class="space-y-4 md:space-y-6 @container">
         <!-- Styles Grid -->
         <StylesGrid
             v-model="formState.selectedStyleIds"
@@ -139,13 +139,23 @@ watch(
             :is-loading="isLoadingStyles"
             @update:modelValue="(value) => updateForm('selectedStyleIds', value)" />
 
-        <!-- Number of Parts -->
-        <RadioBadgeGroup
-            v-model="formState.numParts"
-            :options="numPartsOptions"
-            name="numParts"
-            label="Number of Parts"
-            @update:modelValue="(value) => updateForm('numParts', value)" />
+        <div class="@md:flex-row flex-col gap-4 flex justify-between">
+            <!-- Number of Parts -->
+            <RadioBadgeGroup
+                v-model="formState.numParts"
+                :options="numPartsOptions"
+                name="numParts"
+                label="Number of Parts"
+                @update:modelValue="(value) => updateForm('numParts', value)" />
+
+            <!-- Count -->
+            <RadioBadgeGroup
+                v-model="formState.count"
+                :options="countOptions"
+                name="count"
+                label="Number of Names"
+                @update:modelValue="(value) => updateForm('count', value)" />
+        </div>
 
         <!-- Gender Selection -->
         <RadioBadgeGroup
@@ -162,14 +172,6 @@ watch(
             name="caseStyle"
             label="Case Style"
             @update:modelValue="(value) => updateForm('caseStyle', value)" />
-
-        <!-- Count -->
-        <RadioBadgeGroup
-            v-model="formState.count"
-            :options="countOptions"
-            name="count"
-            label="Number of Names"
-            @update:modelValue="(value) => updateForm('count', value)" />
 
         <!-- Unique Toggle -->
         <div class="flex items-center space-x-2">
