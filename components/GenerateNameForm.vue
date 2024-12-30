@@ -2,15 +2,7 @@
 <script setup lang="ts">
 import type { NameStyle, GenerateNamesRequest, GenerateNamesResponse, CaseStyle, Gender } from '~/types';
 import { Checkbox } from '@/components/ui/checkbox';
-
-interface FormState {
-    selectedStyleIds: string[];
-    gender: Gender;
-    numParts: number;
-    caseStyle: CaseStyle;
-    count: number;
-    unique: boolean;
-}
+import { type FormState } from '@/composables/useNameGeneratorState';
 
 interface Props {
     styles: NameStyle[];

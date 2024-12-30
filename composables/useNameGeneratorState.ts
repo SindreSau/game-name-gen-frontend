@@ -1,6 +1,6 @@
 import type { GeneratedName } from '~/types';
 
-interface FormState {
+export interface FormState {
     selectedStyleIds: string[];
     gender: 'masculine' | 'feminine' | 'neutral';
     numParts: number;
