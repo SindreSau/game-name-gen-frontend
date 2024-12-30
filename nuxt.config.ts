@@ -40,7 +40,7 @@ export default defineNuxtConfig({
             link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
         },
     },
-    modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/color-mode', '@nuxt/image'],
+    modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/color-mode', '@nuxt/image', '@formkit/auto-animate/nuxt'],
     shadcn: {
         prefix: '',
         componentDir: './components/ui',

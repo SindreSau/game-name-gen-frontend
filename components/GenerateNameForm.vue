@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import type { NameStyle, GenerateNamesResponse, CaseStyle, Gender } from '~/types';
 import { Checkbox } from '@/components/ui/checkbox';
-import { type FormState } from '@/composables/useNameGeneratorState';
 
 interface Props {
     styles: NameStyle[];
     isLoadingStyles?: boolean;
-    formState: FormState;
 }
 
 interface Emits {
-    (e: 'update:formState', value: FormState): void;
     (e: 'success', response: GenerateNamesResponse): void;
     (e: 'error', error: Error): void;
 }
@@ -23,7 +20,9 @@ const emit = defineEmits<Emits>();
 
 const hasAttemptedSubmit = ref(false);
 const isGenerating = ref(false);
-const { formState } = toRefs(props);
+
+// Use the composable instead of local ref
+const { formState } = useNameFormState();
 
 // Options for radio groups with proper typing
 const genderOptions: { value: Gender; label: string }[] = [
@@ -53,23 +52,15 @@ const countOptions = [
     { value: 20, label: '20' },
 ];
 
-// Update form state helper
-const updateForm = (key: keyof FormState, value: any) => {
-    emit('update:formState', {
-        ...props.formState,
-        [key]: value,
-    });
-};
-
 // Validation
 const validations = computed(() => ({
     styles: {
         valid:
-            props.formState.numParts === 1
-                ? props.formState.selectedStyleIds.length >= 1
-                : props.formState.selectedStyleIds.length >= 2,
+            formState.value.numParts === 1
+                ? formState.value.selectedStyleIds.length >= 1
+                : formState.value.selectedStyleIds.length >= 2,
         message:
-            props.formState.numParts === 1
+            formState.value.numParts === 1
                 ? 'Select at least one style when using one part'
                 : 'Select at least two styles when using multiple parts',
     },
@@ -96,7 +87,7 @@ const handleSubmit = async () => {
 
     try {
         // Convert UUID style IDs to their corresponding identifiers
-        const styleIdentifiers = props.formState.selectedStyleIds
+        const styleIdentifiers = formState.value.selectedStyleIds
             .map((id) => styleIdToName.value.get(id))
             .filter((name): name is string => name !== undefined);
 
@@ -104,7 +95,7 @@ const handleSubmit = async () => {
             baseURL: useRuntimeConfig().public.apiBase,
             method: 'POST',
             body: {
-                ...props.formState,
+                ...formState.value,
                 styles: styleIdentifiers,
             },
         });
@@ -119,10 +110,10 @@ const handleSubmit = async () => {
 
 // Watch numParts to update style selection
 watch(
-    () => props.formState.numParts,
+    () => formState.value.numParts,
     (newValue) => {
-        if (newValue === 1 && props.formState.selectedStyleIds.length > 1) {
-            updateForm('selectedStyleIds', [props.formState.selectedStyleIds[0]]);
+        if (newValue === 1 && formState.value.selectedStyleIds.length > 1) {
+            formState.value.selectedStyleIds = [formState.value.selectedStyleIds[0]];
         }
     }
 );
@@ -136,8 +127,7 @@ watch(
             :styles="styles"
             :num-parts="formState.numParts"
             :show-validation="hasAttemptedSubmit"
-            :is-loading="isLoadingStyles"
-            @update:modelValue="(value) => updateForm('selectedStyleIds', value)" />
+            :is-loading="isLoadingStyles" />
 
         <div class="@md:flex-row flex-col gap-4 flex justify-between">
             <!-- Number of Parts -->
@@ -145,40 +135,25 @@ watch(
                 v-model="formState.numParts"
                 :options="numPartsOptions"
                 name="numParts"
-                label="Number of Parts"
-                @update:modelValue="(value) => updateForm('numParts', value)" />
+                label="Number of Parts" />
 
             <!-- Count -->
-            <RadioBadgeGroup
-                v-model="formState.count"
-                :options="countOptions"
-                name="count"
-                label="Number of Names"
-                @update:modelValue="(value) => updateForm('count', value)" />
+            <RadioBadgeGroup v-model="formState.count" :options="countOptions" name="count" label="Number of Names" />
         </div>
 
         <!-- Gender Selection -->
-        <RadioBadgeGroup
-            v-model="formState.gender"
-            :options="genderOptions"
-            name="gender"
-            label="Gender"
-            @update:modelValue="(value) => updateForm('gender', value)" />
+        <RadioBadgeGroup v-model="formState.gender" :options="genderOptions" name="gender" label="Gender" />
 
         <!-- Case Style -->
         <RadioBadgeGroup
             v-model="formState.caseStyle"
             :options="caseStyleOptions"
             name="caseStyle"
-            label="Case Style"
-            @update:modelValue="(value) => updateForm('caseStyle', value)" />
+            label="Case Style" />
 
         <!-- Unique Toggle -->
         <div class="flex items-center space-x-2">
-            <Checkbox
-                id="unique"
-                :checked="formState.unique"
-                @update:checked="(value) => updateForm('unique', value)" />
+            <Checkbox id="unique" v-model:checked="formState.unique" />
             <label
                 for="unique"
                 class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">

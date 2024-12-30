@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import type { StylesResponse, GenerateNamesResponse, GeneratedName } from '~/types';
+import type { StylesResponse, GenerateNamesResponse } from '~/types';
+import { useGeneratedNames } from '~/composables/useGeneratedNames';
 import { useToast } from '@/components/ui/toast/use-toast';
-import { useNameGeneratorState } from '~/composables/useNameGeneratorState';
 import { useFavorites } from '@/composables/useFavorites';
 
-// Initialize state management
-const { formState, generatedNames, updateGeneratedNames, clearFormState, loadGeneratedNames } = useNameGeneratorState();
 const { toast } = useToast();
 const TOAST_DURATION = 1500;
 
-// Handle loading state
 const isLoading = ref(true);
 
-// Use useAsyncData instead of useFetch for better control
+// Use the composables
+const { generatedNames, updateGeneratedNames, loadGeneratedNames } = useGeneratedNames();
+
+// Load data
 const { data: stylesData } = await useAsyncData<StylesResponse>('styles', () =>
     $fetch('/api/v1/styles', {
         baseURL: useRuntimeConfig().public.apiBase,
@@ -20,23 +20,15 @@ const { data: stylesData } = await useAsyncData<StylesResponse>('styles', () =>
     })
 );
 
-// Ensure state is loaded from localStorage
-if (import.meta.client) {
-    loadGeneratedNames();
-}
-
-onMounted(() => {
-    // Clear all formState
-    clearFormState();
-});
-
 const styles = computed(() => stylesData.value?.styles ?? []);
 
-// Set loading to false after data is fetched
+// Initialize generated names
+await loadGeneratedNames();
 isLoading.value = false;
 
 const handleSuccess = (response: GenerateNamesResponse) => {
     updateGeneratedNames(response.names);
+
     toast({
         description: `Generated ${response.names.length} names successfully!`,
         duration: TOAST_DURATION,
@@ -91,17 +83,14 @@ const handleAddToFavorites = (name: GeneratedName) => {
         </div>
 
         <div v-else class="flex flex-col gap-6 max-w-7xl mx-auto lg:grid lg:grid-cols-[1fr,400px] lg:gap-6">
-            <!-- Form Section -->
-            <div class="p-4 mb-6 border rounded-md md:mb-0">
+            <div class="p-4 mb-6 border rounded-md dark:bg-zinc-800/10 md:mb-0">
                 <GenerateNameForm
-                    v-model:form-state="formState"
                     :styles="styles"
                     :is-loading-styles="false"
                     @success="handleSuccess"
                     @error="handleError" />
             </div>
 
-            <!-- Names List Section -->
             <div>
                 <NameList
                     :names="generatedNames"
