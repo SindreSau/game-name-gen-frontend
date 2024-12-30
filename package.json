@@ -1,38 +1,38 @@
 {
-  "name": "game-name-generator-frontend",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "dependencies": {
-    "@formkit/auto-animate": "^0.8.2",
-    "@nuxt/image": "1.8.1",
-    "@nuxtjs/color-mode": "3.5.2",
-    "@vee-validate/zod": "^4.15.0",
-    "@vueuse/core": "^12.2.0",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "lucide-vue-next": "^0.469.0",
-    "nuxt": "^3.15.0",
-    "radix-vue": "^1.9.11",
-    "tailwind-merge": "^2.6.0",
-    "tailwindcss-animate": "^1.0.7",
-    "vee-validate": "^4.15.0",
-    "vue": "latest",
-    "vue-router": "latest",
-    "zod": "^3.24.1"
-  },
-  "devDependencies": {
-    "@nuxtjs/tailwindcss": "^6.12.2",
-    "@tailwindcss/container-queries": "^0.1.1",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
-    "shadcn-nuxt": "^0.11.3",
-    "typescript": "^5.7.2"
-  }
+    "name": "game-name-generator-frontend",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "nuxt build",
+        "dev": "nuxt dev",
+        "generate": "nuxt generate",
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare"
+    },
+    "dependencies": {
+        "@formkit/auto-animate": "^0.8.2",
+        "@nuxt/image": "1.8.1",
+        "@nuxtjs/color-mode": "3.5.2",
+        "@vee-validate/zod": "^4.15.0",
+        "@vueuse/core": "^12.2.0",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "lucide-vue-next": "^0.469.0",
+        "nuxt": "^3.15.0",
+        "radix-vue": "^1.9.11",
+        "tailwind-merge": "^2.6.0",
+        "tailwindcss-animate": "^1.0.7",
+        "vee-validate": "^4.15.0",
+        "vue": "latest",
+        "vue-router": "latest",
+        "zod": "^3.24.1"
+    },
+    "devDependencies": {
+        "@nuxtjs/tailwindcss": "^6.12.2",
+        "@tailwindcss/container-queries": "^0.1.1",
+        "autoprefixer": "^10.4.20",
+        "postcss": "^8.4.49",
+        "shadcn-nuxt": "^0.11.3",
+        "typescript": "^5.7.2"
+    }
 }

@@ -108,7 +108,7 @@ const isValid = computed(() => {
 </script>
 
 <template>
-    <div class="space-y-2">
+    <div v-auto-animate class="space-y-2">
         <div class="flex items-center justify-between">
             <label class="text-sm font-medium leading-none"> Name Styles (Choose up to {{ maxSelections }}) </label>
             <span class="text-sm text-muted-foreground"> Selected: {{ selectedCount }}/{{ maxSelections }} </span>
