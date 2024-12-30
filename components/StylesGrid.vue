@@ -1,15 +1,14 @@
-// components/StylesGrid.vue
 <script setup lang="ts">
 import type { NameStyle } from '~/types';
-import { Checkbox } from '@/components/ui/checkbox';
+import { computed } from 'vue';
 
 interface Props {
+    modelValue: string[];
     styles: NameStyle[];
     numParts: number;
-    modelValue: string[]; // for v-model of selected style IDs
-    maxSelections?: number;
     showValidation?: boolean;
     isLoading?: boolean;
+    maxSelections?: number;
 }
 
 interface Emits {
@@ -17,107 +16,134 @@ interface Emits {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    maxSelections: 5,
     showValidation: false,
     isLoading: false,
+    maxSelections: 5,
 });
 
 const emit = defineEmits<Emits>();
 
-const isStyleDisabled = computed(() => {
-    return (styleId: string) => {
-        const selectedIds = props.modelValue;
-        return !selectedIds.includes(styleId) && selectedIds.length >= props.maxSelections;
-    };
+// Validate that all selected IDs exist in the available styles
+const validSelectedIds = computed(() => {
+    const availableIds = new Set(props.styles.map((style) => style.id));
+    return props.modelValue.filter((id) => availableIds.has(id));
 });
 
-const validationState = computed(() => ({
-    valid: props.numParts === 1 ? props.modelValue.length >= 1 : props.modelValue.length >= 2,
-    message:
-        props.numParts === 1
-            ? 'Select at least one style when using one part'
-            : 'Select at least two styles when using multiple parts',
-}));
+const selectedCount = computed(() => props.modelValue.length);
 
-const handleSelectionChange = (styleId: string, checked: boolean) => {
-    const currentSelection = [...props.modelValue];
+const isSelected = (styleId: string) => props.modelValue.includes(styleId);
 
-    if (checked && currentSelection.length < props.maxSelections) {
-        currentSelection.push(styleId);
-    } else if (!checked) {
-        const index = currentSelection.indexOf(styleId);
-        if (index > -1) {
-            currentSelection.splice(index, 1);
+// Add watch to clean up invalid IDs
+watch(
+    () => props.modelValue,
+    (newValue) => {
+        const validIds = validSelectedIds.value;
+        if (validIds.length !== newValue.length) {
+            // If there are invalid IDs, emit update with only valid ones
+            emit('update:modelValue', validIds);
         }
+    },
+    { immediate: true }
+);
+
+const canSelectMore = computed(() => {
+    // If using single part, allow only one selection
+    if (props.numParts === 1) {
+        return selectedCount.value < 1;
+    }
+    // Otherwise, allow up to maxSelections
+    return selectedCount.value < props.maxSelections;
+});
+
+const canDeselect = computed(() => {
+    // If using multiple parts, require at least 2 styles
+    if (props.numParts > 1) {
+        return selectedCount.value > 2;
+    }
+    // If using single part, require at least 1 style
+    return selectedCount.value > 1;
+});
+
+const toggleStyle = (styleId: string) => {
+    const isCurrentlySelected = isSelected(styleId);
+
+    // Handle deselection
+    if (isCurrentlySelected) {
+        // Prevent deselection if it would violate minimum requirements
+        if (!canDeselect.value && props.numParts > 1 && selectedCount.value <= 2) {
+            return;
+        }
+        if (!canDeselect.value && props.numParts === 1 && selectedCount.value <= 1) {
+            return;
+        }
+        const newSelection = props.modelValue.filter((id) => id !== styleId);
+        emit('update:modelValue', newSelection);
+        return;
     }
 
-    emit('update:modelValue', currentSelection);
-};
-
-const handleItemClick = (styleId: string) => {
-    const currentSelection = [...props.modelValue];
-    const isSelected = currentSelection.includes(styleId);
-
-    if (isSelected) {
-        const index = currentSelection.indexOf(styleId);
-        if (index > -1) {
-            currentSelection.splice(index, 1);
-        }
-    } else if (currentSelection.length < props.maxSelections) {
-        currentSelection.push(styleId);
+    // Handle selection
+    if (!canSelectMore.value) {
+        return;
     }
 
-    emit('update:modelValue', currentSelection);
+    const newSelection = [...props.modelValue, styleId];
+    emit('update:modelValue', newSelection);
 };
+
+const validationMessage = computed(() => {
+    if (!props.showValidation) return '';
+
+    if (props.numParts === 1 && selectedCount.value < 1) {
+        return 'Select at least one style when using one part';
+    }
+
+    if (props.numParts > 1 && selectedCount.value < 2) {
+        return 'Select at least two styles when using multiple parts';
+    }
+
+    return '';
+});
+
+const isValid = computed(() => {
+    if (props.numParts === 1) {
+        return selectedCount.value >= 1;
+    }
+    return selectedCount.value >= 2;
+});
 </script>
 
 <template>
     <div class="space-y-2">
-        <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-            Name Styles (Choose up to {{ maxSelections }})
-        </label>
-
-        <!-- Loading State -->
-        <div v-if="isLoading" class="flex items-center justify-center p-4">
-            <Spinner class="w-6 h-6" />
-        </div>
-
-        <!-- Grid of Checkboxes -->
-        <div v-else class="grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2">
-            <GlassCard
-                v-for="style in styles"
-                :key="style.id"
-                as="div"
-                class="flex items-center px-3 py-2 transition-opacity cursor-pointer select-none sm:py-3"
-                :class="[isStyleDisabled(style.id) ? 'opacity-50 cursor-not-allowed' : '']"
-                @click="handleItemClick(style.id)">
-                <div class="flex items-center space-x-2">
-                    <Checkbox
-                        :id="style.id"
-                        :checked="modelValue.includes(style.id)"
-                        :disabled="isStyleDisabled(style.id)"
-                        @update:checked="(checked) => handleSelectionChange(style.id, checked)" />
-                    <label
-                        :for="style.id"
-                        class="text-sm leading-none cursor-pointer select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        {{ style.name }}
-                    </label>
-                </div>
-            </GlassCard>
-        </div>
-
-        <!-- Selection Count & Validation Message -->
-        <div
-            class="text-sm"
-            :class="[
-                showValidation && !validationState.valid
-                    ? 'text-red-500 dark:text-red-400'
-                    : 'text-zinc-500 dark:text-zinc-400',
-            ]">
-            Selected: {{ modelValue.length }}/{{ maxSelections }}
-            <span v-if="showValidation && !validationState.valid" class="block mt-1">
-                {{ validationState.message }}
+        <div class="flex items-center justify-between">
+            <label class="text-sm font-medium leading-none">
+                Name Styles (Choose up to {{ props.numParts === 1 ? 1 : maxSelections }})
+            </label>
+            <span class="text-sm text-muted-foreground">
+                Selected: {{ selectedCount }}/{{ props.numParts === 1 ? 1 : maxSelections }}
             </span>
         </div>
+
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+            <button
+                v-for="style in styles"
+                :key="style.id"
+                type="button"
+                class="p-2 text-sm transition-colors border rounded-md hover:bg-accent"
+                :class="{
+                    'border-primary bg-primary/10': isSelected(style.id),
+                    'border-input': !isSelected(style.id),
+                    'cursor-not-allowed opacity-50': !isSelected(style.id) && !canSelectMore,
+                    'animate-pulse': isLoading,
+                }"
+                :disabled="isLoading || (!isSelected(style.id) && !canSelectMore)"
+                @click="toggleStyle(style.id)">
+                {{ style.name }}
+            </button>
+        </div>
+
+        <!-- Validation Message -->
+        <p v-if="showValidation && !isValid" class="text-sm text-destructive">
+            {{ validationMessage }}
+        </p>
     </div>
 </template>

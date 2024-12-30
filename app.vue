@@ -9,7 +9,7 @@
 <style>
 .page-enter-active,
 .page-leave-active {
-    transition: all 0.2s;
+    transition: all 100ms ease-in-out;
 }
 .page-enter-from,
 .page-leave-to {

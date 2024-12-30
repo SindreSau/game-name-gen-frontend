@@ -1,10 +1,4 @@
-<script setup lang="ts">
-const NAVLINKS = [
-    { name: 'Home', href: '/' },
-    { name: 'Favourites', href: '/favourites' },
-    { name: 'About', href: '/about' },
-];
-</script>
+<script setup lang="ts"></script>
 
 <template>
     <div class="relative min-h-screen">

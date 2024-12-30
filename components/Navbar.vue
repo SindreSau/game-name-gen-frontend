@@ -5,7 +5,7 @@ import { vAutoAnimate } from '@formkit/auto-animate/vue';
 
 const NAVLINKS = [
     { name: 'Home', href: '/' },
-    { name: 'Favourites', href: '/favourites' },
+    { name: 'Favorites', href: '/favorites' },
     { name: 'About', href: '/about' },
 ];
 
