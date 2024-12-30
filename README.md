@@ -1,75 +1,19 @@
-# Nuxt Minimal Starter
+# Game Name Generator
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Welcome to the Game Name Generator! This web application helps you create unique and interesting names for your game characters.
 
-## Setup
+## Features
 
-Make sure to install dependencies:
+-   Generate unique names based on different styles and preferences.
+-   Save your favorite names for later use.
+-   Copy generated names to your clipboard with a single click.
+-   Generate similar names based on an existing name.
 
-```bash
-# npm
-npm install
+## Usage
 
-# pnpm
-pnpm install
+1. Select your preferred styles and options in the form.
+2. Click the "Generate Names" button to create a list of names.
+3. Save your favorite names or copy them to your clipboard.
+4. Generate similar names if you need more inspiration.
 
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+We hope you find the perfect name for your game!
