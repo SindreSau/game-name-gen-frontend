@@ -79,7 +79,7 @@ const handleAddToFavorites = (name: GeneratedName) => {
 <template>
     <div>
         <div v-if="isLoading" class="flex items-center justify-center py-12">
-            <Spinner class="w-8 h-8" />
+            <Spinner />
         </div>
 
         <div v-else class="flex flex-col gap-6 max-w-7xl mx-auto lg:grid lg:grid-cols-[1fr,400px] lg:gap-6">
@@ -92,11 +92,17 @@ const handleAddToFavorites = (name: GeneratedName) => {
             </div>
 
             <div>
-                <NameList
-                    :names="generatedNames"
-                    @copy="handleCopyName"
-                    @generate-similar="handleGenerateSimilar"
-                    @favorite="handleAddToFavorites" />
+                <ClientOnly>
+                    <NameList
+                        :names="generatedNames"
+                        @copy="handleCopyName"
+                        @generate-similar="handleGenerateSimilar"
+                        @favorite="handleAddToFavorites" />
+
+                    <template #fallback>
+                        <Spinner />
+                    </template>
+                </ClientOnly>
             </div>
         </div>
 
