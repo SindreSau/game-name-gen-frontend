@@ -8,12 +8,19 @@ export default defineNuxtConfig({
         public: {
             apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3030', // Adjust this to your API URL
             apiToken: process.env.AUTH_TOKEN || 'test-token', // Adjust this to your API token
+            appUrl: process.env.NUXT_PUBLIC_APP_URL || 'http://localhost:3000', // Adjust this to your app URL
         },
     },
     compatibilityDate: '2024-11-01',
-    devtools: { enabled: true },
+    devtools: {
+        enabled: true,
+
+        timeline: {
+            enabled: true,
+        },
+    },
     experimental: {
-        componentIslands: true,
+        // componentIslands: true,
         // viewTransition: true,
     },
     postcss: {
@@ -28,18 +35,30 @@ export default defineNuxtConfig({
     app: {
         pageTransition: { name: 'page', mode: 'out-in', duration: 100 },
         head: {
+            charset: 'utf-8',
+            viewport: 'width=device-width, initial-scale=1',
             title: 'Game Name Generator',
+            titleTemplate: '%s | Game Name Generator',
             meta: [
-                { charset: 'utf-8' },
-                { name: 'viewport', content: 'width=device-width, initial-scale=1' },
                 {
-                    hid: 'description',
                     name: 'description',
-                    content: 'Generate unique and creative names for your games',
+                    content: 'Generate unique and creative game names with different styles and cases',
                 },
+                { property: 'og:image', content: '/images/social-card.jpg' },
+                { property: 'og:image:width', content: '1200' },
+                { property: 'og:image:height', content: '630' },
+                { name: 'twitter:card', content: 'summary_large_image' },
+                { name: 'twitter:image', content: '/images/social-card.jpg' },
             ],
-            link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
+            link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+            base: { href: '/' },
+            htmlAttrs: { lang: 'en' },
         },
+    },
+    routeRules: {
+        '/': { ssr: true },
+        '/favorites': { ssr: true },
+        '/about': { static: true },
     },
     modules: [
         '@nuxtjs/tailwindcss',

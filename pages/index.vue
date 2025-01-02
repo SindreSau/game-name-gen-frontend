@@ -3,6 +3,11 @@ import type { StylesResponse, GenerateNamesResponse, GeneratedName } from '~/typ
 import { useGeneratedNames } from '~/composables/useGeneratedNames';
 import { useToast } from '@/components/ui/toast/use-toast';
 import { useFavorites } from '@/composables/useFavorites';
+useSeo({
+    title: 'Home',
+    description:
+        'Game Name Generator! The tool that helps you create unique and interesting names for your game characters.',
+});
 
 const { toast } = useToast();
 const TOAST_DURATION = 1500;
@@ -17,8 +22,6 @@ const runtimeConfig = useRuntimeConfig();
 const { data: stylesData } = await useFetch<StylesResponse>('/api/v1/styles', {
     baseURL: runtimeConfig.public.apiBase,
     method: 'GET',
-    immediate: true,
-    lazy: true,
 });
 
 const styles = computed(() => stylesData.value?.styles ?? []);

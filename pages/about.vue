@@ -1,3 +1,11 @@
+<script setup lang="ts">
+useSeo({
+    title: 'About',
+    description:
+        'About the Game Name Generator! The tool that helps you create unique and interesting names for your game characters.',
+});
+</script>
+
 <template>
     <div><ContentDoc class="max-w-3xl mx-auto" path="/about" /></div>
 </template>

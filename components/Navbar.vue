@@ -89,9 +89,11 @@ const closeMenu = () => {
                     <!-- Logo -->
                     <NuxtLink to="/" class="font-semibold">
                         <NuxtImg
-                            src="/images/logo.svg"
+                            src="/images/logo.png"
                             class="w-28 filter dark:brightness-200 dark:hue-rotate-0 hue-rotate-[190deg] brightness-125"
-                            alt="Logo" />
+                            alt="Logo"
+                            format="webp"
+                            width="112px" />
                     </NuxtLink>
 
                     <!-- Center Navigation -->
