@@ -31,7 +31,7 @@ onUnmounted(() => {
 
 <template>
     <svg
-        class="absolute inset-0 -z-10 h-full w-full stroke-zinc-600/5 dark:stroke-zinc-600/20 [mask-image:radial-gradient(100%_70%_at_top,white,transparent)]">
+        class="absolute inset-0 -z-10 h-full w-full stroke-zinc-600/5 dark:stroke-zinc-600/20 md:[mask-image:radial-gradient(100%_70%_at_top,white,transparent)] [mask-image:radial-gradient(20%_20%_at_top,white,transparent)]">
         <defs>
             <pattern
                 id="noise"

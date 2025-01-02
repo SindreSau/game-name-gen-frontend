@@ -1,6 +1,6 @@
+<!-- components/StylesGrid.vue -->
 <script setup lang="ts">
 import type { NameStyle } from '~/types';
-import { computed } from 'vue';
 
 interface Props {
     modelValue: string[];
@@ -105,6 +105,10 @@ const isValid = computed(() => {
     }
     return selectedCount.value >= 2;
 });
+
+const handleToggle = (styleId: string) => {
+    toggleStyle(styleId);
+};
 </script>
 
 <template>
@@ -115,21 +119,15 @@ const isValid = computed(() => {
         </div>
 
         <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
-            <button
+            <GlowCheckbox
                 v-for="style in styles"
                 :key="style.id"
-                type="button"
-                class="p-2 text-sm transition-colors border rounded-md hover:bg-accent"
-                :class="{
-                    'border-primary bg-primary/10': isSelected(style.id),
-                    'border-input': !isSelected(style.id),
-                    'cursor-not-allowed opacity-50': !isSelected(style.id) && !canSelectMore,
-                    'animate-pulse': isLoading,
-                }"
+                :selected="isSelected(style.id)"
                 :disabled="isLoading || (!isSelected(style.id) && !canSelectMore)"
-                @click="toggleStyle(style.id)">
+                :loading="isLoading"
+                @toggle="handleToggle(style.id)">
                 {{ style.name }}
-            </button>
+            </GlowCheckbox>
         </div>
 
         <!-- Validation Message -->

@@ -32,7 +32,7 @@ const srText = computed(() => {
         variant="ghost"
         size="icon"
         @click="toggleTheme"
-        class="relative grid w-10 h-10 rounded-full place-items-center">
+        class="relative grid w-10 h-10 transition-colors rounded-full place-items-center hover:outline outline-primary/30 dark:outline-primary/30 hover:bg-transparent dark:hover:bg-transparent">
         <!-- Show loading state -->
         <div v-if="!isReady" class="w-5 h-5 rounded-full bg-muted animate-pulse"></div>
 

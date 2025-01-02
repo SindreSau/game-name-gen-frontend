@@ -1,30 +1,53 @@
 <script setup lang="ts">
-import type { StylesResponse, GenerateNamesResponse } from '~/types';
+import type { StylesResponse, GenerateNamesResponse, GeneratedName } from '~/types';
 import { useGeneratedNames } from '~/composables/useGeneratedNames';
 import { useToast } from '@/components/ui/toast/use-toast';
 import { useFavorites } from '@/composables/useFavorites';
+useSeo({
+    title: 'Generator',
+    description:
+        'Game Name Generator! The tool that helps you create unique and interesting names for your game characters.',
+});
 
 const { toast } = useToast();
 const TOAST_DURATION = 1500;
 
-const isLoading = ref(true);
+const isGeneratedNamesLoading = ref(true);
+const hasError = ref(false);
 
 // Use the composables
 const { generatedNames, updateGeneratedNames, loadGeneratedNames } = useGeneratedNames();
 
-// Load data
-const { data: stylesData } = await useAsyncData<StylesResponse>('styles', () =>
-    $fetch('/api/v1/styles', {
-        baseURL: useRuntimeConfig().public.apiBase,
-        method: 'GET',
-    })
-);
+// Load styles data
+const runtimeConfig = useRuntimeConfig();
+const {
+    data: stylesData,
+    status,
+    error,
+} = await useFetch<StylesResponse>('/api/v1/styles', {
+    baseURL: runtimeConfig.public.apiBase,
+    method: 'GET',
+    lazy: false,
+    immediate: true,
+});
+
+watchEffect(() => {
+    if (error.value) {
+        hasError.value = true;
+        toast({
+            title: 'Error',
+            description: 'Failed to load styles data',
+            variant: 'destructive',
+            duration: TOAST_DURATION,
+        });
+    }
+});
 
 const styles = computed(() => stylesData.value?.styles ?? []);
 
 // Initialize generated names
 await loadGeneratedNames();
-isLoading.value = false;
+isGeneratedNamesLoading.value = false;
 
 const handleSuccess = (response: GenerateNamesResponse) => {
     updateGeneratedNames(response.names);
@@ -59,31 +82,67 @@ const handleCopyName = async (name: GeneratedName) => {
     }
 };
 
-const handleGenerateSimilar = (name: GeneratedName) => {
-    // TODO: Implement similar name generation
-    console.log('Generate similar:', name);
+const similarNames = ref<GeneratedName[]>([]);
+const selectedName = ref<GeneratedName | null>(null);
+const isDialogOpen = ref(false);
+const isFetchingSimilar = ref(false);
+
+const handleGenerateSimilar = async (name: GeneratedName) => {
+    selectedName.value = name;
+    isDialogOpen.value = true;
+    isFetchingSimilar.value = true;
+
+    try {
+        const response = await $fetch<GenerateNamesResponse>('/api/v1/names/similar', {
+            baseURL: runtimeConfig.public.apiBase,
+            method: 'POST',
+            body: {
+                originalName: name,
+                count: 10,
+            },
+        });
+
+        similarNames.value = response.names;
+    } catch (error) {
+        toast({
+            title: 'Error',
+            description: 'Failed to generate similar names',
+            variant: 'destructive',
+        });
+    } finally {
+        isFetchingSimilar.value = false;
+    }
 };
 
-const handleAddToFavorites = (name: GeneratedName) => {
-    const { addFavorite } = useFavorites();
+const handleToggleFavorite = (name: GeneratedName) => {
+    const { addFavorite, removeFavorite, isFavorite } = useFavorites();
 
-    if (addFavorite(name)) {
-        toast({
-            description: `Added "${name.name}" to favorites`,
-            duration: TOAST_DURATION,
-        });
+    if (isFavorite(name)) {
+        if (removeFavorite(name)) {
+            toast({
+                description: `Removed "${name.name}" from favorites`,
+                duration: TOAST_DURATION,
+            });
+        }
+    } else {
+        if (addFavorite(name)) {
+            toast({
+                description: `Added "${name.name}" to favorites`,
+                duration: TOAST_DURATION,
+            });
+        }
     }
 };
 </script>
 
 <template>
     <div>
-        <div v-if="isLoading" class="flex items-center justify-center py-12">
-            <Spinner class="w-8 h-8" />
+        <div v-if="isGeneratedNamesLoading" class="flex items-center justify-center py-12">
+            <Spinner />
         </div>
 
         <div v-else class="flex flex-col gap-6 max-w-7xl mx-auto lg:grid lg:grid-cols-[1fr,400px] lg:gap-6">
-            <div class="p-4 mb-6 border rounded-md dark:bg-zinc-800/10 md:mb-0">
+            <div class="p-4 mb-6 border rounded-md bg-background/30 dark:bg-zinc-800/10 md:mb-0">
                 <GenerateNameForm
                     :styles="styles"
                     :is-loading-styles="false"
@@ -92,14 +151,27 @@ const handleAddToFavorites = (name: GeneratedName) => {
             </div>
 
             <div>
-                <NameList
-                    :names="generatedNames"
-                    @copy="handleCopyName"
-                    @generate-similar="handleGenerateSimilar"
-                    @favorite="handleAddToFavorites" />
+                <ClientOnly>
+                    <NameList
+                        :names="generatedNames"
+                        @copy="handleCopyName"
+                        @generate-similar="handleGenerateSimilar"
+                        @toggle-favorite="handleToggleFavorite" />
+
+                    <template #fallback>
+                        <Spinner />
+                    </template>
+                </ClientOnly>
             </div>
         </div>
 
+        <SimilarNamesDialog
+            v-model:isOpen="isDialogOpen"
+            :original-name="selectedName"
+            :similar-names="similarNames"
+            :is-loading="isFetchingSimilar"
+            @copy="handleCopyName"
+            @toggle-favorite="handleToggleFavorite" />
         <Toaster />
     </div>
 </template>

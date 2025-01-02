@@ -38,19 +38,13 @@ const removeName = (name: GeneratedName) => {
 
                         <div class="flex items-center gap-2">
                             <!-- Quick action buttons -->
-                            <button
-                                class="p-2 transition-colors rounded-md hover:bg-accent"
-                                @click="copyName(name)"
-                                title="Copy name">
+                            <IconButton sr-text="Copy" @click="copyName(name)" tooltip="Copy name">
                                 <Copy class="w-4 h-4" />
-                            </button>
+                            </IconButton>
 
-                            <button
-                                class="p-2 transition-colors rounded-md hover:bg-accent"
-                                @click="removeName(name)"
-                                title="Remove from favorites">
+                            <IconButton sr-text="Remove" @click="removeName(name)" tooltip="Remove from favorites">
                                 <Trash class="w-4 h-4" />
-                            </button>
+                            </IconButton>
                         </div>
                     </div>
                 </GlassCard>
