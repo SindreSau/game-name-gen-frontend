@@ -117,6 +117,8 @@ watch(
         }
     }
 );
+
+const tooltip = ref('Generate unique names to ensure each name is different');
 </script>
 
 <template>
@@ -132,13 +134,19 @@ watch(
         <div class="@md:flex-row flex-col gap-4 flex justify-between">
             <!-- Number of Parts -->
             <RadioBadgeGroup
+                tooltip="The number of names to combine into one"
                 v-model="formState.numParts"
                 :options="numPartsOptions"
                 name="numParts"
                 label="Number of Parts" />
 
-            <!-- Count -->
-            <RadioBadgeGroup v-model="formState.count" :options="countOptions" name="count" label="Number of Names" />
+            <!-- Nr names to generate -->
+            <RadioBadgeGroup
+                tooltip="The number of names to generate"
+                v-model="formState.count"
+                :options="countOptions"
+                name="count"
+                label="Number of Names" />
         </div>
 
         <!-- Gender Selection -->
@@ -152,14 +160,16 @@ watch(
             label="Case Style" />
 
         <!-- Unique Toggle -->
-        <div class="flex items-center space-x-2">
-            <Checkbox id="unique" v-model:checked="formState.unique" />
-            <label
-                for="unique"
-                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Generate Unique Names
-            </label>
-        </div>
+        <CustomTooltip :text="'adds 3-digit code at the end'" align="center" side="right">
+            <div class="flex items-center space-x-2">
+                <Checkbox id="unique" v-model:checked="formState.unique" />
+                <label
+                    for="unique"
+                    class="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Generate Unique Names
+                </label>
+            </div>
+        </CustomTooltip>
 
         <!-- Submit Button -->
         <button

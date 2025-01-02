@@ -7,6 +7,7 @@ export default defineNuxtConfig({
         // Public keys that are exposed to the client
         public: {
             apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3030', // Adjust this to your API URL
+            apiToken: process.env.AUTH_TOKEN || 'test-token', // Adjust this to your API token
         },
     },
     compatibilityDate: '2024-11-01',
@@ -40,7 +41,15 @@ export default defineNuxtConfig({
             link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
         },
     },
-    modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/color-mode', '@nuxt/image', '@formkit/auto-animate/nuxt'],
+    modules: [
+        '@nuxtjs/tailwindcss',
+        'shadcn-nuxt',
+        '@nuxtjs/color-mode',
+        '@nuxt/image',
+        '@formkit/auto-animate/nuxt',
+        '@nuxt/icon',
+        '@nuxt/content',
+    ],
     shadcn: {
         prefix: '',
         componentDir: './components/ui',
@@ -48,6 +57,11 @@ export default defineNuxtConfig({
     tailwindcss: {
         cssPath: './assets/css/tailwind.css',
         configPath: './tailwind.config.js',
+    },
+    icon: {
+        serverBundle: {
+            collections: ['iconamoon'],
+        },
     },
     colorMode: {
         preference: 'system', // default value of $colorMode.preference
@@ -59,5 +73,8 @@ export default defineNuxtConfig({
         classSuffix: '',
         storage: 'localStorage', // or 'sessionStorage' or 'cookie'
         storageKey: 'nuxt-color-mode',
+    },
+    content: {
+        markdown: {},
     },
 });

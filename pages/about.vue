@@ -1,14 +1,37 @@
 <template>
-    <div class="container p-4 mx-auto">
-        <h1 class="mb-4 text-2xl font-bold">About Game Name Generator</h1>
-        <p class="text-lg">
-            Welcome to the Game Name Generator! This tool helps you create unique and interesting names for your game
-            characters. Whether you're playing a new video game, board game, or any other type of game, our generator
-            can provide you with creative and inspiring name ideas.
-        </p>
-        <p class="mt-4 text-lg">
-            Simply click the generate button to get started, and save your favorite names for later. We hope you find
-            the perfect name for your game!
-        </p>
-    </div>
+    <div><ContentDoc class="max-w-3xl mx-auto" path="/about" /></div>
 </template>
+
+<style scoped>
+div {
+    @apply flex flex-col gap-2;
+}
+
+:deep() h1 {
+    @apply text-3xl pb-1 font-semibold text-foreground;
+}
+
+:deep() h2 {
+    @apply text-2xl py-1 font-semibold text-foreground;
+}
+
+:deep() h3 {
+    @apply text-xl py-1 font-semibold text-foreground;
+}
+
+:deep() hr {
+    @apply my-3;
+}
+
+:deep() p {
+    @apply py-1;
+}
+
+:deep() ul {
+    @apply list-disc pl-8 space-y-1;
+}
+
+:deep() ol {
+    @apply list-decimal pl-8 space-y-1;
+}
+</style>

@@ -10,6 +10,7 @@ interface Props {
     options: Option[];
     name: string;
     label?: string;
+    tooltip?: string;
 }
 
 interface Emits {
@@ -26,9 +27,17 @@ const handleChange = (value: string | number) => {
 
 <template>
     <div class="space-y-2">
-        <label v-if="label" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-            {{ label }}
-        </label>
+        <!-- Show tooltip hover helper if specified -->
+        <TooltipHover v-if="tooltip" :text="tooltip">
+            <label v-if="label" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                {{ label }}
+            </label>
+        </TooltipHover>
+        <template v-else-if="label">
+            <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                {{ label }}
+            </label>
+        </template>
 
         <div class="flex flex-wrap gap-2">
             <label
