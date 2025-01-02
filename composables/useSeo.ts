@@ -9,8 +9,7 @@ export function useSeo({ title, description, image, url }: SeoMeta) {
     const config = useRuntimeConfig();
     const route = useRoute();
 
-    const siteUrl = config.public.appUrl || 'http://localhost:3000';
-    console.log('siteUrl', siteUrl);
+    const siteUrl = config.public.appUrl;
 
     const currentUrl = url || `${siteUrl}${route.path}`;
     const ogImage = image || `${siteUrl}/images/social-card.jpg`;

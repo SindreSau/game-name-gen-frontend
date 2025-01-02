@@ -4,7 +4,7 @@ import { useGeneratedNames } from '~/composables/useGeneratedNames';
 import { useToast } from '@/components/ui/toast/use-toast';
 import { useFavorites } from '@/composables/useFavorites';
 useSeo({
-    title: 'Home',
+    title: 'Generator',
     description:
         'Game Name Generator! The tool that helps you create unique and interesting names for your game characters.',
 });
@@ -12,23 +12,42 @@ useSeo({
 const { toast } = useToast();
 const TOAST_DURATION = 1500;
 
-const isLoading = ref(true);
+const isGeneratedNamesLoading = ref(true);
+const hasError = ref(false);
 
 // Use the composables
 const { generatedNames, updateGeneratedNames, loadGeneratedNames } = useGeneratedNames();
 
 // Load styles data
 const runtimeConfig = useRuntimeConfig();
-const { data: stylesData } = await useFetch<StylesResponse>('/api/v1/styles', {
+const {
+    data: stylesData,
+    status,
+    error,
+} = await useFetch<StylesResponse>('/api/v1/styles', {
     baseURL: runtimeConfig.public.apiBase,
     method: 'GET',
+    lazy: false,
+    immediate: true,
+});
+
+watchEffect(() => {
+    if (error.value) {
+        hasError.value = true;
+        toast({
+            title: 'Error',
+            description: 'Failed to load styles data',
+            variant: 'destructive',
+            duration: TOAST_DURATION,
+        });
+    }
 });
 
 const styles = computed(() => stylesData.value?.styles ?? []);
 
 // Initialize generated names
 await loadGeneratedNames();
-isLoading.value = false;
+isGeneratedNamesLoading.value = false;
 
 const handleSuccess = (response: GenerateNamesResponse) => {
     updateGeneratedNames(response.names);
@@ -118,7 +137,7 @@ const handleToggleFavorite = (name: GeneratedName) => {
 
 <template>
     <div>
-        <div v-if="isLoading" class="flex items-center justify-center py-12">
+        <div v-if="isGeneratedNamesLoading" class="flex items-center justify-center py-12">
             <Spinner />
         </div>
 

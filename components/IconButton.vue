@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
-import type CustomTooltip from './CustomTooltip.vue';
-
 const props = defineProps({
     srText: {
         type: String,
