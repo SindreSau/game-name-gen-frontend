@@ -27,20 +27,7 @@ const {
 } = await useFetch<StylesResponse>('/api/v1/styles', {
     baseURL: runtimeConfig.public.apiBase,
     method: 'GET',
-    lazy: false,
-    immediate: true,
-});
-
-watchEffect(() => {
-    if (error.value) {
-        hasError.value = true;
-        toast({
-            title: 'Error',
-            description: 'Failed to load styles data',
-            variant: 'destructive',
-            duration: TOAST_DURATION,
-        });
-    }
+    lazy: true,
 });
 
 const styles = computed(() => stylesData.value?.styles ?? []);
