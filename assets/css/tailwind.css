@@ -13,8 +13,8 @@
         --popover: 0 0% 100%;
         --popover-foreground: 222.2 84% 4.9%;
 
-        --primary: 195 83.2% 45%;
-        --primary-foreground: 210 40% 98%;
+        --primary: 195 83.2% 40%;
+        --primary-foreground: 210 40% 100%;
 
         --secondary: 210 40% 96.1%;
         --secondary-foreground: 222.2 47.4% 11.2%;
@@ -43,8 +43,8 @@
         --popover-foreground: 0 0% 95%;
 
         /* Kept the red for dark theme */
-        --primary: 346.8 77.2% 45%;
-        --primary-foreground: 355.7 100% 97.3%;
+        --primary: 346.8 77.2% 40%;
+        --primary-foreground: 355.7 100% 100%;
 
         /* Rest same as before */
         --secondary: 240 3.7% 15.9%;

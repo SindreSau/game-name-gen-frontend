@@ -19,8 +19,9 @@ export default defineNuxtConfig({
         },
     },
     experimental: {
-        // componentIslands: true,
         // viewTransition: true,
+        componentIslands: true,
+        payloadExtraction: true,
     },
     postcss: {
         plugins: {
@@ -64,10 +65,11 @@ export default defineNuxtConfig({
         },
     },
     routeRules: {
-        '/': { ssr: true },
-        '/favorites': { ssr: true },
+        '/': { isr: true },
+        '/favorites': { isr: true },
         '/about': { static: true },
     },
+    optimization: {},
     modules: [
         '@nuxtjs/tailwindcss',
         'shadcn-nuxt',
