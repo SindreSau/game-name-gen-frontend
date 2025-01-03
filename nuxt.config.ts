@@ -79,7 +79,6 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@nuxt/content',
         '@nuxtjs/seo',
-        'nuxt-og-image',
     ],
     shadcn: {
         prefix: '',
@@ -114,14 +113,6 @@ export default defineNuxtConfig({
             description: 'Fullstack software developer and musician',
             url: 'https://github.com/sindresau',
             '@type': 'Person',
-        },
-    },
-    ogImage: {
-        enabled: true,
-        defaults: {
-            component: 'GameName',
-            width: 1200,
-            height: 630,
         },
     },
 });
