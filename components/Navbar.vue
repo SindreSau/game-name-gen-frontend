@@ -93,7 +93,10 @@ const closeMenu = () => {
                             class="w-28 filter dark:brightness-200 dark:hue-rotate-0 hue-rotate-[190deg] brightness-125"
                             alt="Logo"
                             format="webp"
-                            width="112px" />
+                            quality="80"
+                            width="577"
+                            height="166"
+                            sizes="lg:200px md:120px sm:100px" />
                     </NuxtLink>
 
                     <!-- Center Navigation -->

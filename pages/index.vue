@@ -8,9 +8,10 @@ useSeo({
     description:
         'Game Name Generator! The tool that helps you create unique and interesting names for your game characters.',
 });
-const { defaultOgImage } = useOgImage();
-
-defaultOgImage();
+defineOgImageComponent('GameName', {
+    title: 'Game Name Generator',
+    description: 'Generate unique and interesting names for your game characters.',
+});
 
 const { toast } = useToast();
 const TOAST_DURATION = 1500;
