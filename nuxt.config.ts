@@ -58,6 +58,7 @@ export default defineNuxtConfig({
                     src: 'https://umami.sindresau.me/script.js',
                     'data-website-id': '383c237c-849f-4de8-bf1c-77fa0a9f0116',
                     defer: true,
+                    'data-domains': 'https://gamenamegen.site',
                 },
             ],
         },
@@ -75,6 +76,8 @@ export default defineNuxtConfig({
         '@formkit/auto-animate/nuxt',
         '@nuxt/icon',
         '@nuxt/content',
+        '@nuxtjs/seo',
+        'nuxt-og-image',
     ],
     shadcn: {
         prefix: '',
@@ -102,5 +105,21 @@ export default defineNuxtConfig({
     },
     content: {
         markdown: {},
+    },
+    schemaOrg: {
+        identity: {
+            name: 'Sindre Sauarlia',
+            description: 'Fullstack software developer and musician',
+            url: 'https://github.com/sindresau',
+            '@type': 'Person',
+        },
+    },
+    ogImage: {
+        enabled: true,
+        defaults: {
+            component: 'GameName',
+            width: 1200,
+            height: 630,
+        },
     },
 });

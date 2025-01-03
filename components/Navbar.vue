@@ -4,9 +4,9 @@ import { useRoute } from 'vue-router';
 import { vAutoAnimate } from '@formkit/auto-animate/vue';
 
 const NAVLINKS = [
-    { name: 'Generator', href: '/' },
-    { name: 'Favorites', href: '/favorites' },
-    { name: 'About', href: '/about' },
+    { name: 'Generator', href: '/', arialabel: 'Navigate to Generator page' },
+    { name: 'Favorites', href: '/favorites', arialabel: 'Navigate to Favorites page' },
+    { name: 'About', href: '/about', arialabel: 'Navigate to About page' },
 ];
 
 const route = useRoute();
@@ -87,7 +87,7 @@ const closeMenu = () => {
 
                 <div class="flex items-center justify-between px-4">
                     <!-- Logo -->
-                    <NuxtLink to="/" class="font-semibold">
+                    <NuxtLink to="/" aria-label="Navigate to Generator page" class="font-semibold">
                         <NuxtImg
                             src="/images/logo.png"
                             class="w-28 filter dark:brightness-200 dark:hue-rotate-0 hue-rotate-[190deg] brightness-125"
@@ -104,7 +104,8 @@ const closeMenu = () => {
                                 :class="{
                                     'text-sm h-5 transition-all duration-200 text-center text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white': true,
                                     'border-b-2 border-primary w-9/12 pb-6': isActiveLink(link.href),
-                                }">
+                                }"
+                                :aria-label="link.arialabel">
                                 {{ link.name }}
                             </NuxtLink>
                         </li>

@@ -8,6 +8,9 @@ useSeo({
     description:
         'Game Name Generator! The tool that helps you create unique and interesting names for your game characters.',
 });
+const { defaultOgImage } = useOgImage();
+
+defaultOgImage();
 
 const { toast } = useToast();
 const TOAST_DURATION = 1500;
