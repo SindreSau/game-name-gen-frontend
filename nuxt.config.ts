@@ -49,7 +49,7 @@ export default defineNuxtConfig({
                 { name: 'twitter:card', content: 'summary_large_image' },
                 { name: 'twitter:image', content: '/images/social-card.jpg' },
             ],
-            link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+            link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
             base: { href: '/' },
             htmlAttrs: { lang: 'en' },
             // Analytics using umami
