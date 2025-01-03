@@ -19,15 +19,15 @@ export function useSeo({ title, description, image, url }: SeoMeta) {
         meta: [
             { name: 'description', content: description },
             // Open Graph
-            { property: 'og:title', content: title },
-            { property: 'og:description', content: description },
-            { property: 'og:image', content: ogImage },
-            { property: 'og:url', content: currentUrl },
-            // Twitter
-            { name: 'twitter:title', content: title },
-            { name: 'twitter:description', content: description },
-            { name: 'twitter:image', content: ogImage },
-            { name: 'twitter:card', content: 'summary_large_image' },
+            // { property: 'og:title', content: title },
+            // { property: 'og:description', content: description },
+            // { property: 'og:image', content: ogImage },
+            // { property: 'og:url', content: currentUrl },
+            // // Twitter
+            // { name: 'twitter:title', content: title },
+            // { name: 'twitter:description', content: description },
+            // { name: 'twitter:image', content: ogImage },
+            // { name: 'twitter:card', content: 'summary_large_image' },
         ],
         link: [
             { rel: 'canonical', href: currentUrl },
