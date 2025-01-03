@@ -14,7 +14,6 @@ export default defineNuxtConfig({
     compatibilityDate: '2024-11-01',
     devtools: {
         enabled: true,
-
         timeline: {
             enabled: true,
         },
@@ -53,6 +52,14 @@ export default defineNuxtConfig({
             link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
             base: { href: '/' },
             htmlAttrs: { lang: 'en' },
+            // Analytics using umami
+            script: [
+                {
+                    src: 'https://umami.sindresau.me/script.js',
+                    'data-website-id': '383c237c-849f-4de8-bf1c-77fa0a9f0116',
+                    defer: true,
+                },
+            ],
         },
     },
     routeRules: {
