@@ -31,7 +31,7 @@ export function useSeo({ title, description, image, url }: SeoMeta) {
         ],
         link: [
             { rel: 'canonical', href: currentUrl },
-            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+            { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
         ],
         htmlAttrs: { lang: 'en' },
     });
