@@ -142,6 +142,7 @@ const closeMenu = () => {
                                 <NuxtLink
                                     :to="link.href"
                                     @click="closeMenu"
+                                    no-prefetch
                                     :class="{
                                         'block text-center py-2 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white': true,
                                         'border-b-2 border-primary': isActiveLink(link.href),

@@ -3,14 +3,15 @@ import type { StylesResponse, GenerateNamesResponse, GeneratedName } from '~/typ
 import { useGeneratedNames } from '~/composables/useGeneratedNames';
 import { useToast } from '@/components/ui/toast/use-toast';
 import { useFavorites } from '@/composables/useFavorites';
+defineOgImageComponent('GeneralOg', {
+    pageTitle: 'Generator',
+    description: 'Generate unique and interesting names for your game characters.',
+});
+
 useSeo({
     title: 'Generator',
     description:
         'Game Name Generator! The tool that helps you create unique and interesting names for your game characters.',
-});
-defineOgImageComponent('GameName', {
-    title: 'Game Name Generator',
-    description: 'Generate unique and interesting names for your game characters.',
 });
 
 const { toast } = useToast();

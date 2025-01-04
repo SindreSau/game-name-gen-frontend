@@ -78,30 +78,33 @@ const styleIdToName = computed(() => {
 });
 
 // Handle form submission
+const runtimeConfig = useRuntimeConfig();
 const handleSubmit = async () => {
     hasAttemptedSubmit.value = true;
-
     if (!isFormValid.value) return;
-
     isGenerating.value = true;
 
     try {
-        // Convert UUID style IDs to their corresponding identifiers
         const styleIdentifiers = formState.value.selectedStyleIds
             .map((id) => styleIdToName.value.get(id))
             .filter((name): name is string => name !== undefined);
 
+        // Use $fetch instead of useFetch since component is mounted
         const response = await $fetch<GenerateNamesResponse>('/api/v1/names/generate', {
-            baseURL: useRuntimeConfig().public.apiBase,
+            baseURL: runtimeConfig.public.apiBase,
             method: 'POST',
             body: {
                 ...formState.value,
                 styles: styleIdentifiers,
             },
+            headers: {
+                'Content-Type': 'application/json',
+            },
         });
 
         emit('success', response);
     } catch (error) {
+        console.error('Generation error:', error);
         emit('error', error instanceof Error ? error : new Error('Failed to generate names'));
     } finally {
         isGenerating.value = false;

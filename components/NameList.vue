@@ -37,7 +37,7 @@ const toggleFavorite = (name: GeneratedName) => {
 <template>
     <TooltipProvider>
         <div v-auto-animate class="space-y-4">
-            <h2 class="text-xl font-semibold text-foreground">Generated Names</h2>
+            <h1 class="text-xl font-semibold text-foreground">Generated Names</h1>
 
             <div v-if="names.length === 0" class="text-sm text-muted-foreground">
                 No names generated yet. Use the form to generate some names!
