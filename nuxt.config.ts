@@ -6,9 +6,9 @@ export default defineNuxtConfig({
 
         // Public keys that are exposed to the client
         public: {
-            apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3030', // Adjust this to your API URL
+            apiBase: process.env.NUXT_PUBLIC_API_BASE, // Adjust this to your API URL
             apiToken: process.env.AUTH_TOKEN || 'test-token', // Adjust this to your API token
-            appUrl: process.env.NUXT_PUBLIC_APP_URL || 'http://localhost:3000', // Adjust this to your app URL
+            appUrl: process.env.NUXT_PUBLIC_APP_URL, // Adjust this to your app URL
         },
     },
     compatibilityDate: '2024-11-01',
@@ -44,11 +44,19 @@ export default defineNuxtConfig({
                     name: 'description',
                     content: 'Generate unique and creative game names with different styles and cases',
                 },
-                { property: 'og:image', content: '/images/social-card.jpg' },
-                { property: 'og:image:width', content: '1200' },
-                { property: 'og:image:height', content: '630' },
-                { name: 'twitter:card', content: 'summary_large_image' },
-                { name: 'twitter:image', content: '/images/social-card.jpg' },
+                {
+                    name: 'keywords',
+                    content:
+                        'game name generator, character names, game character name idea, username generator, RPG names, gaming names, fantasy names, sci-fi names, military names, tech names, game character creator, gaming username, unique names, character name generator, name ideas, game development, PascalCase names, camelCase names, kebab-case names, snake_case names, CONSTANT_CASE names',
+                },
+                {
+                    name: 'target',
+                    content: 'gamers, game developers, writers, content creators',
+                },
+                {
+                    name: 'application-name',
+                    content: 'Game Name Generator',
+                },
             ],
             link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
             base: { href: '/' },
