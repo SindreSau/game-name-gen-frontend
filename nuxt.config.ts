@@ -61,15 +61,6 @@ export default defineNuxtConfig({
             link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
             base: { href: '/' },
             htmlAttrs: { lang: 'en' },
-            // Analytics using umami
-            script: [
-                {
-                    src: 'https://umami.sindresau.me/script.js',
-                    'data-website-id': '383c237c-849f-4de8-bf1c-77fa0a9f0116',
-                    defer: true,
-                    'data-domains': 'https://gamenamegen.site',
-                },
-            ],
         },
     },
     routeRules: {
@@ -87,6 +78,7 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@nuxt/content',
         '@nuxtjs/seo',
+        'nuxt-umami',
     ],
     shadcn: {
         prefix: '',
@@ -122,5 +114,18 @@ export default defineNuxtConfig({
             url: 'https://github.com/sindresau',
             '@type': 'Person',
         },
+    },
+    umami: {
+        id: '383c237c-849f-4de8-bf1c-77fa0a9f0116',
+        host: 'https://umami.sindresau.me',
+        autoTrack: true,
+        // proxy: 'cloak',
+        // useDirective: true,
+        ignoreLocalhost: true,
+        // excludeQueryParams: false,
+        domains: ['gamenamegen.site'],
+        // customEndpoint: '/my-custom-endpoint',
+        // enabled: false,
+        // logErrors: true,
     },
 });
