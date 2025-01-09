@@ -1,11 +1,17 @@
 <script setup lang="ts">
-useSeo({
-    title: 'Favorites',
-    description: 'Your collection of favorited names.',
-});
+// useSeo({
+//     title: 'Favorites',
+//     description: 'Your collection of favorited names.',
+// });
 import type { GeneratedName } from '~/types';
 import { useToast } from '@/components/ui/toast/use-toast';
 import { useFavorites } from '@/composables/useFavorites';
+
+useSeo({
+    title: 'Favorites',
+    description: 'Your collection of favorited names. Save your favorite names and copy them to your clipboard.',
+    keywords: 'favorite names, saved names, copy names, clipboard, rpg names, dnd names, fantasy names',
+});
 
 const { favorites, removeFavorite, loadFavorites } = useFavorites();
 const { toast } = useToast();

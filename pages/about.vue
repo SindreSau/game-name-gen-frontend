@@ -1,8 +1,16 @@
 <script setup lang="ts">
+// useSeo({
+//     title: 'About',
+//     description:
+//         'About the Game Name Generator! The tool that helps you create unique and interesting names for your game characters.',
+// });
+
 useSeo({
     title: 'About',
     description:
-        'About the Game Name Generator! The tool that helps you create unique and interesting names for your game characters.',
+        'About the Game Name Generator! The tool that helps you create unique and interesting names for your game characters. Learn more about the tool and how it works.',
+    keywords:
+        'about, about us, about the generator, about the tool, how it works, how to use, game name generator, rpg names, dnd names, fantasy names',
 });
 </script>
 
