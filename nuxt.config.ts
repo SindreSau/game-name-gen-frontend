@@ -58,14 +58,7 @@ export default defineNuxtConfig({
                     content: 'Game Name Generator',
                 },
             ],
-            link: [
-                { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
-                {
-                    rel: 'canonical',
-                    href:
-                        'https://gamenamegen.site' + (process.env.NUXT_PUBLIC_APP_URL ? window.location.pathname : ''),
-                },
-            ],
+            link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
             base: { href: '/' },
             htmlAttrs: { lang: 'en' },
         },
@@ -134,5 +127,9 @@ export default defineNuxtConfig({
         // customEndpoint: '/my-custom-endpoint',
         // enabled: false,
         // logErrors: true,
+    },
+    site: {
+        url: 'https://gamenamegen.site',
+        name: 'Game Character Name Generator',
     },
 });
