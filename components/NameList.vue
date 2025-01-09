@@ -1,3 +1,4 @@
+<!-- YourComponent.vue -->
 <script setup lang="ts">
 import type { GeneratedName } from '~/types';
 import { Copy, Wand2 } from 'lucide-vue-next';
@@ -21,6 +22,14 @@ const emit = defineEmits<Emits>();
 // Use the favorites composable
 const { isFavorite } = useFavorites();
 
+// Add isDesktop ref
+const isDesktop = ref(false);
+
+// Check if device supports hover on mount
+onMounted(() => {
+    isDesktop.value = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+});
+
 const copyName = (name: GeneratedName) => {
     emit('copy', name);
 };
@@ -32,6 +41,9 @@ const generateSimilar = (name: GeneratedName) => {
 const toggleFavorite = (name: GeneratedName) => {
     emit('toggle-favorite', name);
 };
+
+// Provide isDesktop to child components
+provide('isDesktop', isDesktop);
 </script>
 
 <template>
@@ -45,18 +57,23 @@ const toggleFavorite = (name: GeneratedName) => {
 
             <ul v-else class="space-y-3">
                 <li v-for="name in names" :key="name.uniqueCode">
-                    <GlassCard class="p-3">
+                    <GlassCard class="p-3" :is-desktop="isDesktop">
                         <div class="flex items-center justify-between">
                             <span class="text-lg font-medium text-foreground">{{ name.name }}</span>
 
                             <div class="flex space-x-2">
-                                <IconButton tooltip="Copy" srText="Copy" @click="copyName(name)">
+                                <IconButton
+                                    tooltip="Copy"
+                                    srText="Copy"
+                                    :is-desktop="isDesktop"
+                                    @click="copyName(name)">
                                     <Copy class="w-4 h-4" />
                                 </IconButton>
                                 <template v-if="!hideGenerateSimilarButton">
                                     <IconButton
                                         tooltip="Generate similar"
                                         srText="Generate Similar"
+                                        :is-desktop="isDesktop"
                                         @click="generateSimilar(name)">
                                         <Wand2 class="w-4 h-4" />
                                     </IconButton>
@@ -64,6 +81,7 @@ const toggleFavorite = (name: GeneratedName) => {
                                 <IconButton
                                     :tooltip="isFavorite(name) ? 'Remove favorite' : 'Add favorite'"
                                     :srText="isFavorite(name) ? 'Remove Favorite' : 'Add Favorite'"
+                                    :is-desktop="isDesktop"
                                     @click="toggleFavorite(name)">
                                     <Icon
                                         :name="isFavorite(name) ? 'iconamoon:heart-fill' : 'iconamoon:heart'"

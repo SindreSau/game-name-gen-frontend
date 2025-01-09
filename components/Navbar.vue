@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue';
+import { ref, computed, nextTick, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { vAutoAnimate } from '@formkit/auto-animate/vue';
 
@@ -16,15 +16,34 @@ const isHovering = ref(false);
 const mousePosition = ref({ x: 0, y: 0 });
 const navRef = ref<HTMLElement | null>(null);
 const isMenuOpen = ref(false);
+const isDesktop = ref(false);
+
+// Setup desktop detection on mount
+onMounted(() => {
+    isDesktop.value = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+});
 
 const handleMouseMove = (event: MouseEvent) => {
-    if (!navRef.value) return;
+    // Skip if not desktop or if it's a touch event
+    if (!navRef.value || !isDesktop.value || (event as any).sourceCapabilities?.firesTouchEvents) return;
 
     const rect = navRef.value.getBoundingClientRect();
     mousePosition.value = {
         x: event.clientX - rect.left,
         y: event.clientY - rect.top,
     };
+};
+
+const handleMouseEnter = () => {
+    if (isDesktop.value) {
+        isHovering.value = true;
+    }
+};
+
+const handleMouseLeave = () => {
+    if (isDesktop.value) {
+        isHovering.value = false;
+    }
 };
 
 const isActiveLink = (href: string) => {
@@ -35,7 +54,7 @@ const menuRef = ref<HTMLElement | null>(null);
 const menuHeight = ref(0);
 
 const navStyle = computed(() => ({
-    borderRadius: isMenuOpen.value ? '30px' : '30px',
+    borderRadius: '30px',
     transition: 'all 100ms ease-in-out',
 }));
 
@@ -66,24 +85,27 @@ const closeMenu = () => {
             <div
                 ref="navRef"
                 @mousemove="handleMouseMove"
-                @mouseenter="isHovering = true"
-                @mouseleave="isHovering = false"
+                @mouseenter="handleMouseEnter"
+                @mouseleave="handleMouseLeave"
+                @touchstart="isHovering = false"
                 :style="navStyle"
                 class="relative py-2 px-4 border shadow-lg opacity-100 backdrop-blur-[4px] bg-background/40 dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800 overflow-hidden">
-                <!-- Glow effect -->
-                <div
-                    class="absolute transition duration-300 pointer-events-none -inset-px"
-                    :style="{
-                        opacity: isHovering ? 1 : 0,
-                        background: `radial-gradient(400px circle at ${mousePosition.x}px ${mousePosition.y}px, 
-                                   hsl(var(--primary) / 0.1), 
-                                   transparent 40%)`,
-                    }" />
+                <!-- Glow effect - desktop only -->
+                <template v-if="isDesktop">
+                    <div
+                        class="absolute transition duration-300 opacity-0 pointer-events-none -inset-px"
+                        :class="{ '!opacity-100': isHovering }"
+                        :style="{
+                            background: `radial-gradient(400px circle at ${mousePosition.x}px ${mousePosition.y}px, 
+                                       hsl(var(--primary) / 0.1), 
+                                       transparent 40%)`,
+                        }" />
+                </template>
 
-                <!-- Inner glow effect -->
+                <!-- Inner glow effect - static, works on all devices -->
                 <div
                     class="absolute inset-0 bg-gradient-to-r from-zinc-200/50 via-transparent to-zinc-200/50 dark:from-zinc-800/50 dark:via-transparent dark:to-zinc-800/50 blur-xl -z-10"
-                    :style="navStyle"></div>
+                    :style="navStyle" />
 
                 <div class="flex items-center justify-between px-4">
                     <!-- Logo -->
@@ -101,13 +123,14 @@ const closeMenu = () => {
 
                     <!-- Center Navigation -->
                     <ul class="items-center justify-between hidden w-full sm:flex max-w-72" v-auto-animate>
-                        <li class="flex items-center justify-center w-full" v-for="link in NAVLINKS" :key="link.href">
+                        <li v-for="link in NAVLINKS" :key="link.href" class="flex items-center justify-center w-full">
                             <NuxtLink
                                 :to="link.href"
-                                :class="{
-                                    'text-sm h-5 transition-all duration-200 text-center text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white': true,
-                                    'border-b-2 border-primary w-9/12 pb-6': isActiveLink(link.href),
-                                }"
+                                :class="[
+                                    'text-sm h-5 transition-all duration-200 text-center text-zinc-600 dark:text-zinc-400',
+                                    isDesktop && 'desktop-hover:text-zinc-900 dark:desktop-hover:text-white',
+                                    isActiveLink(link.href) && 'border-b-2 border-primary w-9/12 pb-6',
+                                ]"
                                 :aria-label="link.arialabel">
                                 {{ link.name }}
                             </NuxtLink>
@@ -118,19 +141,20 @@ const closeMenu = () => {
                     <div class="flex items-center gap-4">
                         <HeaderThemeSwitcher />
                         <!-- Hamburger Menu Button -->
-                        <div
-                            class="flex flex-col items-center justify-center cursor-pointer sm:hidden"
-                            @click="toggleMenu">
+                        <button
+                            class="flex flex-col items-center justify-center sm:hidden"
+                            @click="toggleMenu"
+                            aria-label="Toggle navigation menu">
                             <div
                                 :class="{ 'transform rotate-45 translate-y-1.5': isMenuOpen }"
-                                class="w-6 h-0.5 bg-black dark:bg-white transition-all duration-150"></div>
+                                class="w-6 h-0.5 bg-black dark:bg-white transition-all duration-150" />
                             <div
                                 :class="{ 'opacity-0': isMenuOpen }"
-                                class="w-6 h-0.5 bg-black dark:bg-white transition-all duration-150 my-1"></div>
+                                class="w-6 h-0.5 bg-black dark:bg-white transition-all duration-150 my-1" />
                             <div
                                 :class="{ 'transform -rotate-45 -translate-y-1.5': isMenuOpen }"
-                                class="w-6 h-0.5 bg-black dark:bg-white transition-all duration-150"></div>
-                        </div>
+                                class="w-6 h-0.5 bg-black dark:bg-white transition-all duration-150" />
+                        </button>
                     </div>
                 </div>
 
@@ -138,15 +162,16 @@ const closeMenu = () => {
                 <div :style="menuStyle" class="overflow-hidden sm:hidden">
                     <div ref="menuRef" class="flex flex-col items-center mt-4">
                         <ul class="flex flex-col items-center w-full pb-2">
-                            <li class="pd-4" v-for="link in NAVLINKS" :key="link.href">
+                            <li v-for="link in NAVLINKS" :key="link.href" class="pd-4">
                                 <NuxtLink
                                     :to="link.href"
                                     @click="closeMenu"
                                     no-prefetch
-                                    :class="{
-                                        'block text-center py-2 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white': true,
-                                        'border-b-2 border-primary': isActiveLink(link.href),
-                                    }">
+                                    :class="[
+                                        'block text-center py-2 text-zinc-600 dark:text-zinc-400',
+                                        isDesktop && 'desktop-hover:text-zinc-900 dark:desktop-hover:text-white',
+                                        isActiveLink(link.href) && 'border-b-2 border-primary',
+                                    ]">
                                     {{ link.name }}
                                 </NuxtLink>
                             </li>

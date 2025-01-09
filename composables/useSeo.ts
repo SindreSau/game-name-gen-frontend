@@ -41,6 +41,11 @@ export const useSeo = ({
     useHead({
         base: { href: '/' },
         htmlAttrs: { lang: 'en' },
+        link: {
+            rel: 'icon',
+            type: 'image/png',
+            href: '/favicon.png',
+        },
     });
 
     defineOgImageScreenshot({

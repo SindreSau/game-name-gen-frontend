@@ -14,9 +14,14 @@ const props = withDefaults(defineProps<Props>(), {
 const cardRef = ref<HTMLElement | null>(null);
 const isHovering = ref(false);
 const mousePosition = ref({ x: 0, y: 0 });
+const isDesktop = ref(false);
+
+onMounted(() => {
+    isDesktop.value = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+});
 
 const handleMouseMove = (event: MouseEvent) => {
-    if (!cardRef.value) return;
+    if (!cardRef.value || !isDesktop.value) return;
 
     const rect = cardRef.value.getBoundingClientRect();
     mousePosition.value = {
@@ -31,16 +36,17 @@ const handleMouseMove = (event: MouseEvent) => {
         :is="as"
         ref="cardRef"
         @mousemove="handleMouseMove"
-        @mouseenter="isHovering = true"
-        @mouseleave="isHovering = false"
+        @mouseenter="isDesktop && (isHovering = true)"
+        @mouseleave="isDesktop && (isHovering = false)"
         class="relative overflow-hidden rounded-lg"
         :class="props.class">
         <!-- Background with glass effect -->
         <div
             class="absolute inset-0 rounded-lg bg-white/70 dark:bg-zinc-900/40 backdrop-blur-[4px] border border-zinc-200 dark:border-zinc-800" />
 
-        <!-- Glow effect -->
+        <!-- Glow effect - only shown on desktop -->
         <div
+            v-if="isDesktop"
             class="absolute transition duration-300 pointer-events-none -inset-px"
             :style="{
                 opacity: isHovering ? 1 : 0,
