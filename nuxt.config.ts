@@ -58,10 +58,14 @@ export default defineNuxtConfig({
                     content: 'Game Name Generator',
                 },
             ],
-            link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }, {
-          rel: 'canonical',
-          href: 'https://gamenamegen.site' + (process.client ? window.location.pathname : ''),
-        }],
+            link: [
+                { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
+                {
+                    rel: 'canonical',
+                    href:
+                        'https://gamenamegen.site' + (process.env.NUXT_PUBLIC_APP_URL ? window.location.pathname : ''),
+                },
+            ],
             base: { href: '/' },
             htmlAttrs: { lang: 'en' },
         },
