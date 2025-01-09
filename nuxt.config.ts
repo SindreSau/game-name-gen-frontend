@@ -37,30 +37,8 @@ export default defineNuxtConfig({
         head: {
             charset: 'utf-8',
             viewport: 'width=device-width, initial-scale=1',
-            title: 'Game Name Generator',
             titleTemplate: '%s | Game Name Generator',
-            meta: [
-                {
-                    name: 'description',
-                    content: 'Generate unique and creative game names with different styles and cases',
-                },
-                {
-                    name: 'keywords',
-                    content:
-                        'game name generator, character names, game character name idea, username generator, RPG names, gaming names, fantasy names, sci-fi names, military names, tech names, game character creator, gaming username, unique names, character name generator, name ideas, game development, PascalCase names, camelCase names, kebab-case names, snake_case names, CONSTANT_CASE names',
-                },
-                {
-                    name: 'target',
-                    content: 'gamers, game developers, writers, content creators',
-                },
-                {
-                    name: 'application-name',
-                    content: 'Game Name Generator',
-                },
-            ],
-            link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
             base: { href: '/' },
-            htmlAttrs: { lang: 'en' },
         },
     },
     routeRules: {
@@ -131,5 +109,8 @@ export default defineNuxtConfig({
     site: {
         url: 'https://gamenamegen.site',
         name: 'Game Character Name Generator',
+    },
+    ogImage: {
+        enabled: true,
     },
 });
