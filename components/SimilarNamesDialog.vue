@@ -21,20 +21,22 @@ const title = computed(() => (props.originalName ? `Similar to "${props.original
 
 <template>
     <Dialog :open="isOpen" @update:open="emit('update:isOpen', $event)">
-        <DialogContent class="sm:max-w-2xl">
-            <DialogHeader>
-                <DialogTitle>{{ title }}</DialogTitle>
+        <DialogContent class="w-[95vw] sm:max-w-2xl mx-auto px-4 sm:px-6 max-h-[90vh] overflow-y-auto pb-6">
+            <DialogHeader class="pt-6 bg-background">
+                <DialogTitle class="pr-8 text-2xl break-words sm:text-xl">{{ title }}</DialogTitle>
             </DialogHeader>
 
-            <div v-if="isLoading" class="flex justify-center py-8">
+            <div v-if="isLoading" class="flex justify-center py-4 sm:py-8">
                 <Spinner />
             </div>
-            <div v-else>
+
+            <div v-else class="mt-4 sm:mt-6">
                 <NameList
                     :names="similarNames"
                     @copy="(name) => emit('copy', name)"
                     @toggle-favorite="(name) => emit('toggle-favorite', name)"
-                    hideGenerateSimilarButton="true" />
+                    :hideGenerateSimilarButton="true"
+                    class="pb-4" />
             </div>
         </DialogContent>
     </Dialog>

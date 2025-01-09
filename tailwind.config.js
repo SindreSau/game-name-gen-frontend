@@ -1,4 +1,5 @@
 const animate = require('tailwindcss-animate');
+const plugin = require('tailwindcss/plugin');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -81,5 +82,12 @@ module.exports = {
             },
         },
     },
-    plugins: [animate, require('@tailwindcss/container-queries')],
+    plugins: [
+        plugin(function ({ addVariant }) {
+            // This creates a 'desktop-hover' variant that only applies on non-touch devices
+            addVariant('desktop-hover', '@media (hover: hover) and (pointer: fine) { &:hover }');
+        }),
+        animate,
+        require('@tailwindcss/container-queries'),
+    ],
 };

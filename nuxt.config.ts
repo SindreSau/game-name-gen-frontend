@@ -57,6 +57,7 @@ export default defineNuxtConfig({
         '@nuxt/content',
         '@nuxtjs/seo',
         'nuxt-umami',
+        '@nuxt/scripts',
     ],
     shadcn: {
         prefix: '',
@@ -109,5 +110,15 @@ export default defineNuxtConfig({
     site: {
         url: 'https://gamenamegen.site',
         name: 'Game Character Name Generator',
+    },
+    scripts: {
+        enabled: true,
+        assets: {
+            fallbackOnSrcOnBundleFail: true,
+            strategy: 'public',
+        },
+        defaultScriptOptions: {
+            bundle: true,
+        },
     },
 });
