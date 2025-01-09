@@ -110,7 +110,4 @@ export default defineNuxtConfig({
         url: 'https://gamenamegen.site',
         name: 'Game Character Name Generator',
     },
-    ogImage: {
-        enabled: true,
-    },
 });
