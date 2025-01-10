@@ -1,4 +1,3 @@
-<!-- YourComponent.vue -->
 <script setup lang="ts">
 import type { GeneratedName } from '~/types';
 import { Copy, Wand2 } from 'lucide-vue-next';

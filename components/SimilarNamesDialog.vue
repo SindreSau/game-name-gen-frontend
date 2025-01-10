@@ -21,7 +21,9 @@ const title = computed(() => (props.originalName ? `Similar to "${props.original
 
 <template>
     <Dialog :open="isOpen" @update:open="emit('update:isOpen', $event)">
-        <DialogContent class="w-[95vw] sm:max-w-2xl mx-auto px-4 sm:px-6 max-h-[90vh] overflow-y-auto pb-6">
+        <DialogContent
+            v-show="isOpen"
+            class="w-[95vw] sm:max-w-2xl mx-auto px-4 sm:px-6 max-h-[80vh] overflow-y-auto pb-6">
             <DialogHeader class="pt-6 bg-background">
                 <DialogTitle class="pr-8 text-2xl break-words sm:text-xl">{{ title }}</DialogTitle>
             </DialogHeader>

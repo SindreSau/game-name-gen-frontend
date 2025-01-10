@@ -36,6 +36,10 @@ export const useSeo = ({
         colorScheme: 'dark light',
         creator: 'Sindre Sauarlia',
         publisher: 'Sindre Sauarlia',
+        ogImage: '/images/og.jpeg',
+        twitterImage: '/images/og.jpeg',
+        twitterTitle: title,
+        twitterDescription: description,
     });
 
     useHead({
@@ -45,15 +49,6 @@ export const useSeo = ({
             rel: 'icon',
             type: 'image/png',
             href: '/favicon.png',
-        },
-    });
-
-    defineOgImageScreenshot({
-        screenshot: {
-            colorScheme: 'dark',
-            delay: 1000,
-            height: 600,
-            width: 500,
         },
     });
 };
