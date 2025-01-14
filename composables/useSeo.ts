@@ -27,6 +27,7 @@ export const useSeo = ({
     description = 'Generate unique and interesting names for your game characters. Save your favorites and find similar names. Perfect for RPGs, MMOs, D&D and more!',
     keywords = '',
 }: SeoProps = {}) => {
+    const route = useRoute();
     const combinedKeywords = keywords ? `${keywords}, ${DEFAULT_KEYWORDS}` : DEFAULT_KEYWORDS;
 
     useSeoMeta({
@@ -45,10 +46,17 @@ export const useSeo = ({
     useHead({
         base: { href: '/' },
         htmlAttrs: { lang: 'en' },
-        link: {
-            rel: 'icon',
-            type: 'image/png',
-            href: '/favicon.png',
-        },
+        link: [
+            {
+                rel: 'icon',
+                type: 'image/png',
+                href: '/favicon.png',
+            },
+            {
+                rel: 'canonical',
+                href: `https://gamenamegen.site${route.path}`,
+                key: 'canonical',
+            },
+        ],
     });
 };
