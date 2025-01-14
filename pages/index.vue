@@ -6,9 +6,9 @@ import { useFavorites } from '@/composables/useFavorites';
 useSeo({
     title: 'Generator',
     description:
-        'Generate unique and interesting names for your game characters. Save your favorites and find similar names. Perfect for RPGs, MMOs, D&D and more!',
+        'Create perfect character names for your next game characters. Save your favorites and find similar names. Perfect for RPGs, MMOs, D&D and more!',
     keywords:
-        'PoE2, PoE, World of Warcraft, D&D, RPG, MMO, names, character names, game names, fantasy names, gamertags, usernames, nicknames, generator',
+        'PoE2, PoE, World of Warcraft, D&D, RPG, MMO, character names, fantasy names, gamertags, usernames, nicknames, character name generator, fantasy name generator, gamertag generator, username generator, D&D names, World of Warcraft names, RPG character names, MMO names, PoE names',
 });
 
 const { toast } = useToast();
@@ -161,6 +161,7 @@ const handleToggleFavorite = (name: GeneratedName) => {
             :is-loading="isFetchingSimilar"
             @copy="handleCopyName"
             @toggle-favorite="handleToggleFavorite" />
+
         <Toaster />
     </div>
 </template>

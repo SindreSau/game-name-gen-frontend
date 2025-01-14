@@ -37,7 +37,7 @@ export default defineNuxtConfig({
         head: {
             charset: 'utf-8',
             viewport: 'width=device-width, initial-scale=1',
-            titleTemplate: '%s | Game Name Generator',
+            titleTemplate: '%s | Game Character Name Generator',
             base: { href: '/' },
         },
     },
