@@ -1,6 +1,6 @@
 # About
 
-Welcome to the Game Name Generator! This tool helps you create unique and interesting names for your game characters. Whether you're playing a new video game, board game, or any other type of game, our generator can provide you with creative and inspiring name ideas.
+Welcome to the Game Character Name Generator! This tool helps you create unique and interesting names for your game characters. Whether you're playing a new video game, board game, or any other type of game, our generator can provide you with creative and inspiring name ideas.
 
 Simply click the generate button to get started, and save your favorite names for later. We hope you find the perfect name for your game!
 

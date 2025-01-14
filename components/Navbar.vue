@@ -112,12 +112,12 @@ const closeMenu = () => {
                     <NuxtLink to="/" aria-label="Navigate to Generator page" class="font-semibold">
                         <NuxtImg
                             src="/images/logo.png"
-                            class="w-28 filter dark:brightness-200 dark:hue-rotate-0 hue-rotate-[190deg] brightness-125"
+                            class="w-8 filter dark:brightness-200 dark:hue-rotate-0 hue-rotate-[190deg] brightness-125"
                             alt="Logo"
                             format="webp"
                             quality="80"
-                            width="577"
-                            height="166"
+                            width="150"
+                            height="124"
                             sizes="lg:200px md:120px sm:100px" />
                     </NuxtLink>
 
