@@ -107,10 +107,10 @@ export default defineNuxtConfig({
         // enabled: false,
         // logErrors: true,
     },
-    site: {
-        url: 'https://gamenamegen.site',
-        name: 'Game Character Name Generator',
-    },
+    // site: {
+    //     url: 'https://gamenamegen.site',
+    //     name: 'Game Character Name Generator',
+    // },
     scripts: {
         enabled: true,
         assets: {
