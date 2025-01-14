@@ -102,6 +102,7 @@ const handleSubmit = async () => {
             },
         });
 
+        umTrackEvent('Generate Names', {});
         emit('success', response);
     } catch (error) {
         console.error('Generation error:', error);
@@ -176,6 +177,7 @@ const tooltip = ref('Generate unique names to ensure each name is different');
 
         <!-- Submit Button -->
         <button
+            data-umami-event="Generate Names"
             type="submit"
             :disabled="isGenerating || (hasAttemptedSubmit && !isFormValid)"
             class="w-full px-4 py-2 text-white transition-colors rounded-md bg-primary hover:bg-primary/90 disabled:bg-primary/50 disabled:cursor-not-allowed">

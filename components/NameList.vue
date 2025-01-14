@@ -74,6 +74,7 @@ provide('isDesktop', isDesktop);
                                         tooltip="Generate similar"
                                         srText="Generate Similar"
                                         :is-desktop="isDesktop"
+                                        data-umami-event="Generate Similar Names"
                                         @click="generateSimilar(name)">
                                         <Wand2 class="w-4 h-4" />
                                     </IconButton>
@@ -81,6 +82,7 @@ provide('isDesktop', isDesktop);
                                 <IconButton
                                     :tooltip="isFavorite(name) ? 'Remove favorite' : 'Add favorite'"
                                     :srText="isFavorite(name) ? 'Remove Favorite' : 'Add Favorite'"
+                                    data-umami-event="Add Favorite"
                                     :is-desktop="isDesktop"
                                     @click="toggleFavorite(name)">
                                     <Icon
