@@ -91,6 +91,9 @@ const handleGenerateSimilar = async (name: GeneratedName) => {
             },
         });
 
+        umTrackEvent('Generate Similar Names', {
+            OriginalName: name.name,
+        });
         similarNames.value = response.names;
     } catch (error) {
         toast({
@@ -115,6 +118,9 @@ const handleToggleFavorite = (name: GeneratedName) => {
         }
     } else {
         if (addFavorite(name)) {
+            umTrackEvent('Add Favorite', {
+                FavoritedName: name.name,
+            });
             toast({
                 description: `Added "${name.name}" to favorites`,
                 duration: TOAST_DURATION,
