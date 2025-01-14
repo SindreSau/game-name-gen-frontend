@@ -1,41 +1,32 @@
+# SimilarNamesList.vue
 <script setup lang="ts">
 import type { GeneratedName } from '~/types';
-import { Copy, Wand2 } from 'lucide-vue-next';
+import { Copy } from 'lucide-vue-next';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import IconButton from '@/components/IconButton.vue';
 
 interface Props {
     names: GeneratedName[];
-    hideGenerateSimilarButton?: boolean;
-    scrollable?: boolean;
 }
 
 interface Emits {
     (e: 'copy', name: GeneratedName): void;
-    (e: 'generate-similar', name: GeneratedName): void;
     (e: 'toggle-favorite', name: GeneratedName): void;
 }
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-// Use the favorites composable
 const { isFavorite } = useFavorites();
 
-// Add isDesktop ref
+// Desktop detection
 const isDesktop = ref(false);
-
-// Check if device supports hover on mount
 onMounted(() => {
     isDesktop.value = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 });
 
 const copyName = (name: GeneratedName) => {
     emit('copy', name);
-};
-
-const generateSimilar = (name: GeneratedName) => {
-    emit('generate-similar', name);
 };
 
 const toggleFavorite = (name: GeneratedName) => {
@@ -48,20 +39,16 @@ provide('isDesktop', isDesktop);
 
 <template>
     <TooltipProvider>
-        <div v-auto-animate class="space-y-4">
-            <h1 class="text-xl font-semibold text-foreground">Generated Names</h1>
-
-            <div v-if="names.length === 0" class="text-sm text-muted-foreground">
-                No names generated yet. Use the form to generate some names!
-            </div>
-
-            <ul v-else class="space-y-3 overflow-y-auto">
+        <div class="max-h-[50vh] sm:max-h-[60vh] overflow-y-auto px-1">
+            <ul v-auto-animate class="space-y-2">
                 <li v-for="name in names" :key="name.uniqueCode">
-                    <GlassCard class="p-3" :is-desktop="isDesktop">
-                        <div class="flex items-center justify-between">
-                            <span class="text-lg font-medium text-foreground">{{ name.name }}</span>
+                    <div class="p-2 transition-colors border rounded-lg sm:p-3 bg-background/50 hover:bg-background/80">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-base font-medium truncate sm:text-lg text-foreground">
+                                {{ name.name }}
+                            </span>
 
-                            <div class="flex space-x-2">
+                            <div class="flex gap-1 sm:gap-2 shrink-0">
                                 <IconButton
                                     tooltip="Copy"
                                     srText="Copy"
@@ -69,15 +56,6 @@ provide('isDesktop', isDesktop);
                                     @click="copyName(name)">
                                     <Copy class="w-4 h-4" />
                                 </IconButton>
-                                <template v-if="!hideGenerateSimilarButton">
-                                    <IconButton
-                                        tooltip="Generate similar"
-                                        srText="Generate Similar"
-                                        :is-desktop="isDesktop"
-                                        @click="generateSimilar(name)">
-                                        <Wand2 class="w-4 h-4" />
-                                    </IconButton>
-                                </template>
                                 <IconButton
                                     :tooltip="isFavorite(name) ? 'Remove favorite' : 'Add favorite'"
                                     :srText="isFavorite(name) ? 'Remove Favorite' : 'Add Favorite'"
@@ -89,7 +67,7 @@ provide('isDesktop', isDesktop);
                                 </IconButton>
                             </div>
                         </div>
-                    </GlassCard>
+                    </div>
                 </li>
             </ul>
         </div>

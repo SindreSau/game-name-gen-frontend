@@ -24,7 +24,7 @@ const DEFAULT_KEYWORDS = [
 
 export const useSeo = ({
     title = 'Generator',
-    description = 'Generate unique and interesting names for your game characters.',
+    description = 'Generate unique and interesting names for your game characters. Save your favorites and find similar names. Perfect for RPGs, MMOs, D&D and more!',
     keywords = '',
 }: SeoProps = {}) => {
     const combinedKeywords = keywords ? `${keywords}, ${DEFAULT_KEYWORDS}` : DEFAULT_KEYWORDS;
@@ -36,8 +36,8 @@ export const useSeo = ({
         colorScheme: 'dark light',
         creator: 'Sindre Sauarlia',
         publisher: 'Sindre Sauarlia',
-        ogImage: '/images/og.jpeg',
-        twitterImage: '/images/og.jpeg',
+        ogImage: '/images/og.jpg',
+        twitterImage: '/images/og.jpg',
         twitterTitle: title,
         twitterDescription: description,
     });
